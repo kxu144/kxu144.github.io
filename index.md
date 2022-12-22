@@ -7,6 +7,9 @@
 Hi! Currently am a student at UC Berkeley studying for a Computer Science & Math double. I'm primarily interested in machine learning, but I enjoy any sort of tricky problems, so feel free to reach out to share any cool questions or talking points about ML! Below you can also find a couple of my projects and papers:
 - Email: [kxu144@berkeley.edu](mailto:kxu144@berkeley.edu)
 
+## Posts
+- [Playing Guess the Number with an optimal opponent](guess_the_number.md)
+
 ## Projects
 Most of my projects can be found on my Github, but will be moving here soon! :)
 
