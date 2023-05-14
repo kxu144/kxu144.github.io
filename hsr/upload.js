@@ -12,6 +12,9 @@ $(document).ready(function() {
       // Create a new FormData object and append the file to it
       var formData = new FormData();
       formData.append("image", file);
+      
+      // Disable the form submit button
+      $("#upload-form input[type=submit]").prop("disabled", true);
   
       // Send the upload request to the Imgur API
       $.ajax({
@@ -36,6 +39,9 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response) {
                 console.log(response);
+
+                // Enable the form submit button
+                $("#upload-form input[type=submit]").prop("disabled", false);
             },
             error: function(xhr) {
                 console.log('Error: ' + xhr.responseText);
@@ -46,6 +52,9 @@ $(document).ready(function() {
           $("#image-container").html("<img src='" + imageUrl + "' />");
         },
         error: function(xhr) {
+          // Enable the form submit button
+          $("#upload-form input[type=submit]").prop("disabled", false);
+
           // Handle upload errors
           alert("Upload failed: " + xhr.responseText);
         }
