@@ -6,7 +6,9 @@ import pytesseract as pyt
 def parse(request):
   url = request.POST['imageUrl']
   response = requests.get(url)
-  if response.status_code = 200:
+  print("RESPONSE CODE", response.status_code)
+  if response.status_code == 200:
+    print("RESPONSE CONTENT", response.content)
     arr = np.frombuffer(response.content, dtype=np.uint8)
     img = cv.imdecode(arr, cv.IMREAD_COLOR)[...,::-1]
 

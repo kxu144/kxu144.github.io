@@ -30,7 +30,7 @@ $(document).ready(function() {
 
           // Send the image URL to your Python script
           $.ajax({
-            url: "hsr/parse.py",
+            url: "parse.py",
             type: "POST",
             data: { imageUrl: imageUrl },
             success: function(response) {
