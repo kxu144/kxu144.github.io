@@ -27,7 +27,21 @@ $(document).ready(function() {
         success: function(response) {
           // Get the URL of the uploaded image
           var imageUrl = response.data.link;
-          alert(imageUrl);
+
+          // Send the image URL to your Python script
+          $.ajax({
+            url: "hsr/parse.py",
+            type: "POST",
+            data: { imageUrl: imageUrl },
+            success: function(response) {
+              // Handle the response from the Python script
+              console.log(response);
+            },
+            error: function(xhr) {
+              // Handle errors
+              console.log("Error: " + xhr.responseText);
+            }
+          });
   
           // Display the uploaded image
           $("#image-container").html("<img src='" + imageUrl + "' />");
