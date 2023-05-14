@@ -32,14 +32,15 @@ $(document).ready(function() {
           $.ajax({
             url: "https://kxu144.pythonanywhere.com/parse",
             type: 'POST',
-            data: { imageUrl: imageUrl },
+            data: JSON.stringify({ imageUrl: imageUrl }),
+            contentType: 'application/json',
             success: function(response) {
                 console.log(response);
             },
             error: function(xhr) {
                 console.log('Error: ' + xhr.responseText);
             }
-          });
+        });
   
           // Display the uploaded image
           $("#image-container").html("<img src='" + imageUrl + "' />");
