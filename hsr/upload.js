@@ -30,18 +30,16 @@ $(document).ready(function() {
 
           // Send the image URL to your Python script
           $.ajax({
-            url: "parse.py",
-            type: "POST",
+            url: '/parse',
+            type: 'POST',
             data: { imageUrl: imageUrl },
             success: function(response) {
-              // Handle the response from the Python script
-              console.log(response);
+                console.log(response);
             },
             error: function(xhr) {
-              // Handle errors
-              console.log("Error: " + xhr.responseText);
+                console.log('Error: ' + xhr.responseText);
             }
-          });
+        });
   
           // Display the uploaded image
           $("#image-container").html("<img src='" + imageUrl + "' />");

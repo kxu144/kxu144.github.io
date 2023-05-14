@@ -1,10 +1,15 @@
+from flask import Flask, request
 import requests
 import numpy as np
 import cv2 as cv
 import pytesseract as pyt
+import json
 
+app = Flask(__name__)
+
+@app.route('/parse', methods=['POST'])
 def parse(request):
-  url = request.POST['imageUrl']
+  url = request.form('imageUrl')
   response = requests.get(url)
   print("RESPONSE CODE", response.status_code)
   if response.status_code == 200:
@@ -21,3 +26,6 @@ def parse(request):
 
     return parse_str
   return response.status_code
+
+if __name__ == '__main__':
+  app.run(debug=True)
