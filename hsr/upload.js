@@ -1,31 +1,41 @@
-const CLIENT_ID = 'eeb9050c7d377e7';
-
-const form = document.getElementById('upload-form');
-const imageInput = document.getElementById('image-input');
-
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const formData = new FormData();
-  formData.append('image', imageInput.files[0]);
-
-  const response = await fetch('https://api.imgur.com/3/image', {
-    method: 'POST',
-    headers: {
-      Authorization: `Client-ID ${CLIENT_ID}`
-    },
-    body: formData
+$(document).ready(function() {
+    // Get your Imgur client ID
+    var clientId = "eeb9050c7d377e7";
+  
+    // Handle the form submission
+    $("#upload-form").submit(function(event) {
+      event.preventDefault();
+  
+      // Get the selected image file
+      var file = $("#image-input")[0].files[0];
+  
+      // Create a new FormData object and append the file to it
+      var formData = new FormData();
+      formData.append("image", file);
+  
+      // Send the upload request to the Imgur API
+      $.ajax({
+        url: "https://api.imgur.com/3/image",
+        type: "POST",
+        headers: {
+          Authorization: "Client-ID " + clientId
+        },
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          // Get the URL of the uploaded image
+          var imageUrl = response.data.link;
+  
+          // Display the uploaded image
+          $("#image-container").html("<img src='" + imageUrl + "' />");
+        },
+        error: function(xhr) {
+          // Handle upload errors
+          alert("Upload failed: " + xhr.responseText);
+        }
+      });
+    });
   });
-
-  const data = await response.json();
-
-  if (data.success) {
-    const imageUrl = data.data.link;
-    // Display the uploaded image on the page
-    const imageElement = document.createElement('img');
-    imageElement.src = imageUrl;
-    document.body.appendChild(imageElement);
-  } else {
-    console.error('Failed to upload image:', data.status);
-  }
-});
+  

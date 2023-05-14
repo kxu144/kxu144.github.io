@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>File Upload</title>
-      <script src="upload.js"></script>
-   </head>
-   <body>
-      <form id="upload-form">
-         <input type = "file" name = "upload" accept = "image/*" id="image-input" />
-         <button type="submit">Upload</button>
-      </form>
+  <head>
+    <title>Upload Image</title>
+  </head>
+  <body>
+    <h1>Upload Image</h1>
+    <form id="upload-form">
+      <input type="file" id="image-input" />
+      <input type="submit" value="Upload" />
+    </form>
 
-      <div id="uploaded-image"></div>
-   </body>
+    <div id="image-container"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
