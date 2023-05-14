@@ -30,7 +30,7 @@ $(document).ready(function() {
 
           // Send the image URL to your Python script
           $.ajax({
-            url: '/parse',
+            url: "https://kxu144.pythonanywhere.com/parse",
             type: 'POST',
             data: { imageUrl: imageUrl },
             success: function(response) {
@@ -39,7 +39,7 @@ $(document).ready(function() {
             error: function(xhr) {
                 console.log('Error: ' + xhr.responseText);
             }
-        });
+          });
   
           // Display the uploaded image
           $("#image-container").html("<img src='" + imageUrl + "' />");
