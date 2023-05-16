@@ -41,7 +41,7 @@ $(document).ready(function() {
                 console.log(response_flask);
                 
                 const new_relic = response_flask;
-                const relics = JSON.parse(localStorage.getItem("user_relics"));
+                let relics = JSON.parse(localStorage.getItem("user_relics"));
                 if (!relics) {
                     relics = [];
                 }
