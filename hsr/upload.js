@@ -1,6 +1,10 @@
 $(document).ready(function() {
     // Get your Imgur client ID
     var clientId = "eeb9050c7d377e7";
+
+    // Get and display the relics stored locally
+    let relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
+    renderList(relics, "relic-list");  
   
     // Handle the form submission
     $("#upload-form").submit(function(event) {
@@ -45,14 +49,14 @@ $(document).ready(function() {
                 
                 // Add to existing database
                 const new_relic = response_flask;
-                let relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
                 if (relics.some(relic => compareRelics(relic, new_relic))) {
-                    console.log("Relic present in database");
+                    alert("Relic already present in database");
                 } else {
                     console.log("Adding relic to database");
                     relics.push(new_relic);
+                    localStorage.setItem("user_relics", JSON.stringify(relics));
+                    renderList(relics, "relic-list");
                 }
-                localStorage.setItem("user_relics", JSON.stringify(relics));
             },
             error: function(xhr) {
                 console.log('Error: ' + xhr.responseText);
