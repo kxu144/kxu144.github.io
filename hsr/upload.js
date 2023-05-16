@@ -37,9 +37,10 @@ $(document).ready(function() {
             type: 'POST',
             data: JSON.stringify({ imageUrl: imageUrl }),
             contentType: 'application/json',
-            success: function(response) {
-                $("#result-container").html(response.result);
-                $("#status-container").text("Status: " + response.status);
+            success: function(response_flask) {
+                console.log(response_flask);
+                
+                $("#result-container").html(response_flask);
 
                 // Enable the form submit button
                 $("#upload-form input[type=submit]").prop("disabled", false);
