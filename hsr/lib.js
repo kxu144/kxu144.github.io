@@ -31,7 +31,7 @@ function renderList(list, container) {
 
     list.forEach((item) => {
         const listItem = document.createElement('li');
-        listItem.textContent = item;
+        listItem.textContent = JSON.stringify(item);
         listContainer.appendChild(listItem);
     });
 }
