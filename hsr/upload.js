@@ -40,7 +40,17 @@ $(document).ready(function() {
             success: function(response_flask) {
                 console.log(response_flask);
                 
-                $("#result-container").html(response_flask);
+                const new_relic = JSON.parse(response_flask);
+                const relics = JSON.parse(localStorage.getItem("user_relics"));
+                if (!relics) {
+                    relics = [];
+                }
+                if (relics.some(relic => compareRelics(relic, new_relic))) {
+                    console.log("Relic present in database");
+                } else {
+                    relics.push(new_relic);
+                }
+                localStorage.setItem("user_relics", JSON.stringify(relics));
 
                 // Enable the form submit button
                 $("#upload-form input[type=submit]").prop("disabled", false);
