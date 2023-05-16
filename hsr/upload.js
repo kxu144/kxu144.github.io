@@ -40,7 +40,7 @@ $(document).ready(function() {
             success: function(response_flask) {
                 console.log(response_flask);
                 
-                const new_relic = JSON.parse(response_flask);
+                const new_relic = response_flask;
                 const relics = JSON.parse(localStorage.getItem("user_relics"));
                 if (!relics) {
                     relics = [];
