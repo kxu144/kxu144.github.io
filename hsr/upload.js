@@ -38,7 +38,8 @@ $(document).ready(function() {
             data: JSON.stringify({ imageUrl: imageUrl }),
             contentType: 'application/json',
             success: function(response) {
-                console.log(response);
+                $("#result-container").html(response.result);
+                $("#status-container").text("Status: " + response.status);
 
                 // Enable the form submit button
                 $("#upload-form input[type=submit]").prop("disabled", false);
