@@ -43,6 +43,7 @@ $(document).ready(function() {
                 // Enable the form submit button
                 $("#upload-form input[type=submit]").prop("disabled", false);
                 
+                // Add to existing database
                 const new_relic = response_flask;
                 let relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
                 if (relics.some(relic => compareRelics(relic, new_relic))) {
