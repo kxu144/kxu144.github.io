@@ -44,13 +44,11 @@ $(document).ready(function() {
                 $("#upload-form input[type=submit]").prop("disabled", false);
                 
                 const new_relic = response_flask;
-                let relics = JSON.parse(localStorage.getItem("user_relics"));
-                if (!relics) {
-                    relics = [];
-                }
+                let relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
                 if (relics.some(relic => compareRelics(relic, new_relic))) {
                     console.log("Relic present in database");
                 } else {
+                    console.log("Adding relic to database");
                     relics.push(new_relic);
                 }
                 localStorage.setItem("user_relics", JSON.stringify(relics));
