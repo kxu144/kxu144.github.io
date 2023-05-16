@@ -39,6 +39,9 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response_flask) {
                 console.log(response_flask);
+
+                // Enable the form submit button
+                $("#upload-form input[type=submit]").prop("disabled", false);
                 
                 const new_relic = response_flask;
                 let relics = JSON.parse(localStorage.getItem("user_relics"));
@@ -51,9 +54,6 @@ $(document).ready(function() {
                     relics.push(new_relic);
                 }
                 localStorage.setItem("user_relics", JSON.stringify(relics));
-
-                // Enable the form submit button
-                $("#upload-form input[type=submit]").prop("disabled", false);
             },
             error: function(xhr) {
                 console.log('Error: ' + xhr.responseText);
