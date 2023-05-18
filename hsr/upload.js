@@ -78,12 +78,23 @@ var openImage = function(file) {
         "lock": false,
         "substats": {},
       };
-      for (const set in relic_sets) {
+      for (const set of relic_sets) {
         if (text.includes(set)) {
           relic["setKey"] = toTitleCase(set).replaceAll(" ", "");
           break;
         }
       }
+      for (const stat of stats) {
+        let m = text.match(stat + " *([0-9]+.?[0-9]*)%");
+        if (m && relic["mainStatKey"] != stat + '_') {
+          relic["substats"][stat + '_'] = float(m[1]);
+        }
+        m = text.match(stat + " *([0-9]+)\s");
+        if (m && relic["mainStatKey"] != stat) {
+          relic["substats"][stat] = int(m[1]);
+        }
+      }
+
       relics.push(relic);
       localStorage.setItem("user_relics", JSON.stringify(relics));
       renderList(relics, "relic-list");
