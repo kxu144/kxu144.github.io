@@ -13,7 +13,7 @@
 
       const worker = await Tesseract.createWorker({
           corePath: 'node_modules/tesseract.js-core',
-          workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/worker.dev.js",
+          workerPath: "https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/worker.min.js",
           logger: function(m){console.log(m);}
       });
 
