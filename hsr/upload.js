@@ -87,7 +87,7 @@ var openImage = function(file) {
         }
       }
       relics.push(relic);
-      localStorage.setItem("user_relics", relics);
+      localStorage.setItem("user_relics", JSON.stringify(relics));
       renderList(relics, "relic-list");
     })
   };
