@@ -54,20 +54,18 @@ var openImage = function(file) {
     var output = document.getElementById('output');
     output.src = dataURL;
 
-    console.log("URL: " + dataURL);
-
     Tesseract.recognize(
       dataURL,
       'eng',
       { logger: m => console.log(m) }
     ).then(({ data: { text } }) => {
-      text = text.replace("[^a-zA-Z0-9 .+%\n]", "").toLowerCase()
-        .replace("crit rate", "critRate")
-        .replace('crit dmg', 'critDMG')
-        .replace('outgoing healing boost', 'outgoing_healing_boost')
-        .replace('effect hit rate', 'effect_hit_rate')
-        .replace('effect res', 'effect_res')
-        .replace('break effect', 'break_effect');
+      text = text.replaceAll("[^a-zA-Z0-9 .+%\n]", "").toLowerCase()
+        .replaceAll("crit rate", "critRate")
+        .replaceAll('crit dmg', 'critDMG')
+        .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
+        .replaceAll('effect hit rate', 'effect_hit_rate')
+        .replaceAll('effect res', 'effect_res')
+        .replaceAll('break effect', 'break_effect');
       console.log(text);
 
       var relic = {
@@ -82,7 +80,7 @@ var openImage = function(file) {
       };
       for (const set in relic_sets) {
         if (text.includes(set)) {
-          relic["setKey"] = toTitleCase(set).replace(" ", "");
+          relic["setKey"] = toTitleCase(set).replaceAll(" ", "");
           break;
         }
       }
