@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Image</title>
+  </head>
+  <body>
+    <h1>Upload Image</h1>
+    <input type="file" accept="image/*" onchange="openImage(event)"><br>
+    <img id='output' style="height:300px; width:200px;">
+
+    <ul id="relic-list"></ul>
+
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js'></script>
+    <script src="lib.js"></script>
+    <script src="upload.js"></script>
+  </body>
+</html>
