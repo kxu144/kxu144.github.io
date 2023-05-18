@@ -87,11 +87,11 @@ var openImage = function(file) {
       for (const stat of stats) {
         let m = text.match(stat + " *([0-9]+.?[0-9]*)%");
         if (m && relic["mainStatKey"] != stat + '_') {
-          relic["substats"][stat + '_'] = float(m[1]);
+          relic["substats"][stat + '_'] = parseFloat(m[1]);
         }
         m = text.match(stat + " *([0-9]+)\s");
         if (m && relic["mainStatKey"] != stat) {
-          relic["substats"][stat] = int(m[1]);
+          relic["substats"][stat] = parseInt(m[1]);
         }
       }
 
