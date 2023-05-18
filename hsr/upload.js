@@ -53,6 +53,9 @@ $(document).ready(function() {
 
       // Get the selected image file
       var file = $("#image-input")[0].files[0];
+      if (!file) return;
+
+      console.log("Path: " + file.path);
       
       Tesseract.recognize(
         file.path,
