@@ -11,7 +11,7 @@ $(document).ready(function() {
       var file = $("#image-input")[0].files[0];
       
       Tesseract.recognize(
-        'https://tesseract.projectnaptha.com/img/eng_bw.png',
+        file.path,
         'eng',
         { logger: m => console.log(m) }
       ).then(({ data: { text } }) => {
