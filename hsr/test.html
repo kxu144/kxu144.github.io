@@ -5,10 +5,8 @@
   </head>
   <body>
     <h1>Upload Image</h1>
-    <form id="upload-form">
-      <input type="file" id="image-input" accept="image/*" />
-      <input type="submit" value="Upload" />
-    </form>
+    <input type="file" accept="image/*" onchange="openImage(event)"><br>
+    <img id='output' style="height:100px; width:100px;">
 
     <ul id="relic-list"></ul>
 

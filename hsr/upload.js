@@ -46,51 +46,66 @@ stats = [
   'spd',
 ];
 
-$(document).ready(function() {
-    // Handle the form submission
-    $("#upload-form").submit(function(event) {
-      event.preventDefault();
+var openImage = function(file) {
+  var input = file.target;
+  var reader = new FileReader();
+  reader.onload = function(){
+    var dataURL = reader.result;
+    var output = document.getElementById('output');
+    output.src = dataURL;
 
-      // Get the selected image file
-      var file = $("#image-input")[0].files[0];
-      if (!file) return;
+    console.log("URL: " + dataURL);
 
-      console.log("Path: " + file.path);
-      
-      Tesseract.recognize(
-        file.path,
-        'eng',
-        { logger: m => console.log(m) }
-      ).then(({ data: { text } }) => {
-        text = text.replace("[^a-zA-Z0-9 .+%\n]", "").toLowerCase()
-          .replace("crit rate", "critRate")
-          .replace('crit dmg', 'critDMG')
-          .replace('outgoing healing boost', 'outgoing_healing_boost')
-          .replace('effect hit rate', 'effect_hit_rate')
-          .replace('effect res', 'effect_res')
-          .replace('break effect', 'break_effect');
-        console.log(text);
+    Tesseract.recognize(
+      dataURL,
+      'eng',
+      { logger: m => console.log(m) }
+    ).then(({ data: { text } }) => {
+      text = text.replace("[^a-zA-Z0-9 .+%\n]", "").toLowerCase()
+        .replace("crit rate", "critRate")
+        .replace('crit dmg', 'critDMG')
+        .replace('outgoing healing boost', 'outgoing_healing_boost')
+        .replace('effect hit rate', 'effect_hit_rate')
+        .replace('effect res', 'effect_res')
+        .replace('break effect', 'break_effect');
+      console.log(text);
 
-        var relic = {
-          "setKey": "",
-          "slotKey": "",
-          "level": 15,
-          "rarity": 5,
-          "mainStatKey": "",
-          "location": "",
-          "lock": false,
-          "substats": {},
-        };
-        for (const set in relic_sets) {
-          if (text.includes(set)) {
-            relic["setKey"] = toTitleCase(set).replace(" ", "");
-            break;
-          }
+      var relic = {
+        "setKey": "",
+        "slotKey": "",
+        "level": 15,
+        "rarity": 5,
+        "mainStatKey": "",
+        "location": "",
+        "lock": false,
+        "substats": {},
+      };
+      for (const set in relic_sets) {
+        if (text.includes(set)) {
+          relic["setKey"] = toTitleCase(set).replace(" ", "");
+          break;
         }
-        relics.push(relic);
-        localStorage.setItem("user_relics", relics);
-        renderList(relics, "relic-list");
-      })
-    });
-});
+      }
+      relics.push(relic);
+      localStorage.setItem("user_relics", relics);
+      renderList(relics, "relic-list");
+    })
+  };
+  reader.readAsDataURL(input.files[0]);
+};
+
+// $(document).ready(function() {
+//     // Handle the form submission
+//     $("#upload-form").submit(function(event) {
+//       event.preventDefault();
+
+//       // Get the selected image file
+//       var file = $("#image-input")[0].files[0];
+//       if (!file) return;
+
+//       console.log("Path: " + file.path);
+      
+      
+//     });
+// });
   
