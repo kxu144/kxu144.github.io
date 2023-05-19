@@ -2,12 +2,13 @@
 <html>
   <head>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
   </head>
   <body>
     <input type="file" id="uploader" accept="image/*">
     <ul id="relic-list"></ul>
 
-    <script src="lib.js"></script>
+    <script type="module" src="lib.js"></script>
     <script type="module" src="upload.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {

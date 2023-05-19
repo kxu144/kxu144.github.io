@@ -1,3 +1,7 @@
+// colorthief to determine rarity
+import ColorThief from 'node_modules/colorthief/dist/color-thief.mjs'
+const colorThief = new ColorThief();
+
 function compareRelics(relic1, relic2) {
     if (!relic1 || !relic2) {
         return !relic1 && !relic2;
