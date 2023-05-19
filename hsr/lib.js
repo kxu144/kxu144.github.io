@@ -1,4 +1,4 @@
-// colorthief to determine rarity
+// Colorthief to determine rarity
 import ColorThief from './node_modules/colorthief/dist/color-thief.mjs'
 const colorThief = new ColorThief();
 
