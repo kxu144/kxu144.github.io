@@ -44,4 +44,104 @@ function toTitleCase(str) {
         }
     );
 }
+
+// API
+relic_sets = [
+    'band of sizzling thunder',
+    'belobog of the architects',
+    'celestial differentiator',
+    'champion of streetwise boxing',
+    'eagle of twilight line',
+    'firesmith of lavaforging',
+    'fleet of the ageless',
+    'genius of the brilliant stars',
+    'guard of wuthering snow',
+    'hunter of glacial forest',
+    'inert salsotto',
+    'knight of purity palace',
+    'musketeer of wild wheat',
+    'pangalactic commercial enterprise',
+    'passerby of wandering cloud',
+    'space sealing station',
+    'sprightly vonwacq',
+    'talia kingdom of banditry',
+    'thief of shooting meteor',
+    'wastelander of banditry desert',
+];
+relic_types = [
+    'head',
+    'hands',
+    'body',
+    'feet',
+    'planar sphere',
+    'link rope',
+];
+stats = [
+    'hp',
+    'atk',
+    'def',
+    'critRate',
+    'critDMG',
+    'outgoing_healing_boost',
+    'effect_hit_rate',
+    'effect_res',
+    'break_effect',
+    'spd',
+];
+
+function parse(str, str_alt) {
+    var text = str.toLowerCase()
+        .replaceAll("crit rate", "critRate")
+        .replaceAll('crit dmg', 'critDMG')
+        .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
+        .replaceAll('effect hit rate', 'effect_hit_rate')
+        .replaceAll('effect res', 'effect_res')
+        .replaceAll('break effect', 'break_effect');
+    var text_alt = str_alt.toLowerCase();
+    var relic = {
+        "setKey": "",
+        "slotKey": "",
+        "level": 15,
+        "rarity": 5,
+        "mainStatKey": "",
+        "location": "",
+        "lock": false,
+        "substats": {},
+        };
+    for (const set of relic_sets) {
+        if (text.includes(set)) {
+            relic["setKey"] = toTitleCase(set).replaceAll(" ", "");
+            break;
+        }
+    }
+    for (const type of relic_types) {
+        if (text_alt.includes(type)) {
+            relic["slotKey"] = type;
+            break;
+        }
+    }
+    var level = text_alt.match("\+([0-9]+)");
+    if (!level) {
+        relic["level"] = parseInt(level[1]);
+    }
+    for (const stat of stats) {
+        let m = text.match(stat + " *([0-9]+.?[0-9]*)%");
+        if (m && relic["mainStatKey"] != stat + '_') {
+            relic["substats"][stat + '_'] = parseFloat(m[1]);
+        }
+        m = text.match(stat + " *([0-9]+)\s");
+        if (m && relic["mainStatKey"] != stat) {
+            relic["substats"][stat] = parseInt(m[1]);
+        }
+    }
+
+    var relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
+    if (relics.some(r => compareRelics(relic, r))) {
+        console.log("Relic already present in database");
+    } else {
+        relics.push(relic);
+        localStorage.setItem("user_relics", JSON.stringify(relics));
+        renderList(relics, "relic-list");
+    }
+}
   
