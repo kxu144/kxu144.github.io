@@ -21,6 +21,8 @@ const getImageSize = (file) => {
 const recognize = async function(evt){
   const files = evt.target.files;
 
+  if (!files[0]) return;
+
   const imageSize = await getImageSize(files[0]);
   console.log('Image Size:', imageSize);
 

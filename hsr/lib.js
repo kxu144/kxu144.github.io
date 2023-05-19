@@ -121,8 +121,21 @@ function parse(str, str_alt) {
         }
     }
     var level = text_alt.match("[+]([0-9]+)");
-    if (!level) {
+    if (level) {
         relic["level"] = parseInt(level[1]);
+    }
+    var pos = text.length;
+    for (const stat of stats) {
+        let m = text.search(stat + " *[0-9]+.?[0-9]*%");
+        if (m >= 0 && m < pos) {
+            relic["mainStatKey"] = stat + '_';
+            pos = m;
+        }
+        m = text.search(stat + " *[0-9]+\\s");
+        if (m >= 0 && m < pos) {
+            relic["mainStatKey"] = stat;
+            pos = m;
+        }
     }
     for (const stat of stats) {
         let m = text.match(stat + " *([0-9]+.?[0-9]*)%");
