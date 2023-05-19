@@ -25,15 +25,20 @@ function compareRelics(relic1, relic2) {
     return true;
 }
 
-function renderList(list, container) {
-    let listContainer = document.getElementById(container);
-    listContainer.innerHTML = ''; // Clear the existing list items
+function renderRelics() {
+    var grid = document.body;
 
     list.forEach((item) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = JSON.stringify(item);
-        listContainer.appendChild(listItem);
+        var gridItem = document.createElement("div");
+        gridItem.className = "grid-item";
+        gridItem.innerText = JSON.stringify(item);
+        grid.appendChild(gridItem);
+        // const listItem = document.createElement('li');
+        // listItem.textContent = JSON.stringify(item);
+        // listContainer.appendChild(listItem);
     });
+
+    document.getElementById("relic-list").innerHTML = grid.innerHTML;
 }
 
 function toTitleCase(str) {
