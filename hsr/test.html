@@ -11,8 +11,14 @@
     <script type="module" src="upload.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        var relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
+        // render artifact database
+        const relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
         renderList(relics, "relic-list");
+
+        const fileInput = document.getElementById("uploader");
+        window.addEventListener("paste", function(e){
+          fileInput.files = e.clipboardData.files;
+        });
       });
     </script>    
   </body>
