@@ -46,6 +46,12 @@
           margin: 0 auto;
           color: red;
       }
+      .popup-content .popup-relic {
+          position: absolute;
+          top: 150px;
+          display: block;
+          margin: 0 auto;
+      }
       .show {
           display: block;
       }
@@ -64,11 +70,13 @@
         <input type="file" id="uploader" accept="image/*">
         <button class="upload-button" id="upload-button" disabled>Add Relic</button>
         <p class="errno" id="popup-errno"></p>
+        <p class="popup-relic" id="popup-relic"></p>
       </div>
     </div>
     <script>
       function reset() {
         document.getElementById("popup-errno").textContent = "";
+        document.getElementById("popup-relic").textContent = "";
         buttonUpload.disabled = true;
       }
 
