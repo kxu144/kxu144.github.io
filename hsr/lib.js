@@ -120,7 +120,7 @@ function parse(str, str_alt) {
             break;
         }
     }
-    var level = text_alt.match(/\+([0-9]+)/);
+    var level = text_alt.match("[+]([0-9]+)");
     if (!level) {
         relic["level"] = parseInt(level[1]);
     }
