@@ -1,5 +1,5 @@
 // colorthief to determine rarity
-import ColorThief from 'https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.2.0/color-thief.umd.js'
+import ColorThief from './node_modules/colorthief/dist/color-thief.mjs'
 const colorThief = new ColorThief();
 
 function compareRelics(relic1, relic2) {
