@@ -120,7 +120,7 @@ function parse(str, str_alt) {
             break;
         }
     }
-    var level = text_alt.match("\+([0-9]+)");
+    var level = text_alt.match(/\+([0-9]+)/);
     if (!level) {
         relic["level"] = parseInt(level[1]);
     }
@@ -129,7 +129,7 @@ function parse(str, str_alt) {
         if (m && relic["mainStatKey"] != stat + '_') {
             relic["substats"][stat + '_'] = parseFloat(m[1]);
         }
-        m = text.match(stat + " *([0-9]+)\s");
+        m = text.match(stat + " *([0-9]+)\\s");
         if (m && relic["mainStatKey"] != stat) {
             relic["substats"][stat] = parseInt(m[1]);
         }
