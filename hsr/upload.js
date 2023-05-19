@@ -8,14 +8,14 @@ await worker.loadLanguage('eng');
 await worker.initialize('eng');
 
 const getImageSize = (file) => {
-return new Promise((resolve, reject) => {
-  const img = new Image();
-  img.onload = () => {
-    resolve({ width: img.width, height: img.height });
-  };
-  img.onerror = reject;
-  img.src = URL.createObjectURL(file);
-});
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({ width: img.width, height: img.height });
+    };
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
+  });
 };
 
 const recognize = async function(evt){
