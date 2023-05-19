@@ -34,3 +34,5 @@ const recognize = async function(evt){
 
   parse(ret.data.text, ret_alt.data.text);
 }
+const elm = document.getElementById('uploader');
+elm.addEventListener('change', recognize);
