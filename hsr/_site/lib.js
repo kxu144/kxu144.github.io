@@ -28,7 +28,7 @@ function compareRelics(relic1, relic2) {
 function renderRelics() {
     var grid = document.getElementById("relic-list");
     grid.innerHTML = '';
-    const relics = localStorage.getItem("user-relics") || [];
+    const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
     relics.forEach((item) => {
         var gridItem = document.createElement("div");
         gridItem.className = "grid-item";
