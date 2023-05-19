@@ -72,6 +72,7 @@
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <script src="lib.js"></script>
   </head>
   <body>
     <button id="button-addrelic">Add New Relic</button>
@@ -117,24 +118,22 @@
           var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
           relics.push(relic);
           localStorage.setItem("user-relics", JSON.stringify(relics));
-          renderList(relics, "relic-list");
+          renderRelics();
           reset();
       })
     </script>
 
     <!-- RELIC DATABASE -->
-    <div class="grid-container" id="relic-list">
-    </div>
+    <div class="grid-container" id="relic-list"></div>
     
     <!-- <ul id="relic-list"></ul> -->
 
-    <script src="lib.js"></script>
     <script type="module" src="upload.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // render artifact database
         const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-        renderList(relics, "relic-list");
+        renderRelics();
 
         const fileInput = document.getElementById("uploader");
         window.addEventListener("paste", function(e){

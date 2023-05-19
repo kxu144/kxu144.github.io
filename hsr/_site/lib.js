@@ -26,9 +26,10 @@ function compareRelics(relic1, relic2) {
 }
 
 function renderRelics() {
-    var grid = document.body;
-
-    list.forEach((item) => {
+    var grid = document.getElementById("relic-list");
+    grid.innerHTML = '';
+    const relics = localStorage.getItem("user-relics") || [];
+    relics.forEach((item) => {
         var gridItem = document.createElement("div");
         gridItem.className = "grid-item";
         gridItem.innerText = JSON.stringify(item);
@@ -38,7 +39,7 @@ function renderRelics() {
         // listContainer.appendChild(listItem);
     });
 
-    document.getElementById("relic-list").innerHTML = grid.innerHTML;
+    //document.getElementById("relic-list").innerHTML = grid.innerHTML;
 }
 
 function toTitleCase(str) {
