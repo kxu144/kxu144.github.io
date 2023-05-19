@@ -67,6 +67,11 @@
       </div>
     </div>
     <script>
+      function reset() {
+        document.getElementById("popup-errno").textContent = "";
+        buttonUpload.disabled = true;
+      }
+
       const button = document.getElementById("button-addrelic");
       const popup = document.getElementById("popup-addrelic");
       button.addEventListener("click", function () {
@@ -75,13 +80,13 @@
       const buttonClose = document.getElementById("popup-close");
       const buttonUpload = document.getElementById("upload-button");
       buttonClose.addEventListener("click", function () {
+          reset();
           popup.classList.remove("show");
-          buttonUpload.disabled = true;
       });
       window.addEventListener("click", function (event) {
           if (event.target == popup) {
+              reset();
               popup.classList.remove("show");
-              buttonUpload.disabled = true;
           }
       });
       buttonUpload.addEventListener("click", function () {
@@ -91,6 +96,7 @@
           relics.push(relic);
           localStorage.setItem("user-relics", JSON.stringify(relics));
           renderList(relics, "relic-list");
+          reset();
       })
   </script>
 
