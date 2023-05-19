@@ -87,7 +87,7 @@
       buttonUpload.addEventListener("click", function () {
           if (!sessionStorage.getItem("new-relic")) alert("No relic found.");
           const relic = JSON.parse(sessionStorage.getItem("new-relic"));
-          var relics = JSON.parse(localStorage.getItem("user-relics"))
+          var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
           relics.push(relic);
           localStorage.setItem("user-relics", JSON.stringify(relics));
           renderList(relics, "relic-list");
