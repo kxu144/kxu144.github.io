@@ -148,13 +148,16 @@ function parse(str, str_alt) {
         }
     }
 
-    var relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
+    var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
     if (relics.some(r => compareRelics(relic, r))) {
+        document.getElementById("popup-errno").textContent = "Relic already present in database";
         console.log("Relic already present in database");
     } else {
-        relics.push(relic);
-        localStorage.setItem("user_relics", JSON.stringify(relics));
-        renderList(relics, "relic-list");
+        // relics.push(relic);
+        // localStorage.setItem("user-relics", JSON.stringify(relics));
+        // renderList(relics, "relic-list");
     }
+    sessionStorage.setItem("new-relic", JSON.stringify(relic));
+    document.getElementById("upload-button").disabled = false;
 }
   

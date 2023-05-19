@@ -10,22 +10,41 @@
           left: 0;
           top: 0;
           width: 100%;
-          height: 100%;
+          height: 190%;
           overflow: auto;
           background-color: rgba(0, 0, 0, 0.4);
           display: none;
       }
       .popup-content {
-          background-color: white;
-          margin: 10% auto;
+          position: relative;
+          background-color: #ffffff;
+          margin: 5% auto;
           padding: 20px;
           border: 1px solid #888888;
-          width: 30%;
-          font-weight: bolder;
+          width: 50%;
+          height: 40%;
       }
-      .popup-content button {
+      .popup-content .close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
           display: block;
           margin: 0 auto;
+      }
+      .popup-content .upload-button {
+          position: absolute;
+          bottom: 10px;
+          left: 10px;
+          display: block;
+          margin: 0 auto;
+      }
+      .popup-content .errno {
+          position: absolute;
+          bottom: 10px;
+          left: 150px;
+          display: block;
+          margin: 0 auto;
+          color: red;
       }
       .show {
           display: block;
@@ -35,13 +54,16 @@
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
   </head>
   <body>
-    <button id="button-addrelic">Add Relic</button>
+    <button id="button-addrelic">Add New Relic</button>
     <div id="popup-addrelic" class="popup">
       <div class="popup-content">
-        <p>This is a popup box!</p>
-        <button id="popup-close">
+        <h1>Relic Editor</h1>
+        <button class="close-button" id="popup-close">
           Close
         </button>
+        <input type="file" id="uploader" accept="image/*">
+        <button class="upload-button" id="upload-button" disabled>Add Relic</button>
+        <p class="errno" id="popup-errno"></p>
       </div>
     </div>
     <script>
@@ -51,18 +73,29 @@
           popup.classList.add("show");
       });
       const buttonClose = document.getElementById("popup-close");
+      const buttonUpload = document.getElementById("upload-button");
       buttonClose.addEventListener("click", function () {
           popup.classList.remove("show");
+          buttonUpload.disabled = true;
       });
       window.addEventListener("click", function (event) {
           if (event.target == popup) {
               popup.classList.remove("show");
+              buttonUpload.disabled = true;
           }
       });
+      buttonUpload.addEventListener("click", function () {
+          if (!sessionStorage.getItem("new-relic")) alert("No relic found.");
+          const relic = JSON.parse(sessionStorage.getItem("new-relic"));
+          var relics = JSON.parse(localStorage.getItem("user-relics"))
+          relics.push(relic);
+          localStorage.setItem("user-relics", JSON.stringify(relics));
+          renderList(relics, "relic-list");
+      })
   </script>
 
 
-    <input type="file" id="uploader" accept="image/*">
+    
     <ul id="relic-list"></ul>
 
     <script src="lib.js"></script>
@@ -70,7 +103,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // render artifact database
-        const relics = JSON.parse(localStorage.getItem("user_relics") || "[]");
+        const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
         renderList(relics, "relic-list");
 
         const fileInput = document.getElementById("uploader");
