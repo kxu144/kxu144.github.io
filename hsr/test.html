@@ -18,6 +18,7 @@
         const fileInput = document.getElementById("uploader");
         window.addEventListener("paste", function(e){
           fileInput.files = e.clipboardData.files;
+          fileInput.dispatchEvent(new Event("change"));
         });
       });
     </script>    
