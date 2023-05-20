@@ -56,11 +56,13 @@ function renderRelics() {
             var statp = document.createElement("div");
             if (stat == relic.mainStatKey) {
                 statp.className = "p-mainstat";
+                statp.innerText = stat + "\t" + value;
+                gridItem.insertBefore(statp, gridItem.childNodes[3]);
             } else {
                 statp.className = "p-substat";
+                statp.innerText = stat + "\t" + value;
+                gridItem.appendChild(statp);
             }
-            statp.innerText = stat + "\t" + value;
-            gridItem.appendChild(statp);
         }
 
         grid.appendChild(gridItem);
