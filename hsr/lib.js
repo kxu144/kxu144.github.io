@@ -127,17 +127,15 @@ stats = [
     'spd',
 ];
 
-function parse(text, text_alt, raw) {
-    if (!raw) {
-        text = text.toLowerCase()
-            .replaceAll("crit rate", "critRate")
-            .replaceAll('crit dmg', 'critDMG')
-            .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
-            .replaceAll('effect hit rate', 'effect_hit_rate')
-            .replaceAll('effect res', 'effect_res')
-            .replaceAll('break effect', 'break_effect');
-        text_alt = text_alt.toLowerCase();
-    }
+function parse(str, str_alt) {
+    var text = str.toLowerCase()
+        .replaceAll("crit rate", "critRate")
+        .replaceAll('crit dmg', 'critDMG')
+        .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
+        .replaceAll('effect hit rate', 'effect_hit_rate')
+        .replaceAll('effect res', 'effect_res')
+        .replaceAll('break effect', 'break_effect');
+    var str_alt = text_alt.toLowerCase();
     var relic = {
         "setKey": "",
         "slotKey": "",
@@ -152,7 +150,7 @@ function parse(text, text_alt, raw) {
     // set
     for (const set of relic_sets) {
         if (text.includes(set)) {
-            relic["setKey"] = raw ? set : toTitleCase(set).replaceAll(" ", "");
+            relic["setKey"] = toTitleCase(set);
             break;
         }
     }
@@ -160,7 +158,7 @@ function parse(text, text_alt, raw) {
     // slot
     for (const type of relic_types) {
         if (text_alt.includes(type)) {
-            relic["slotKey"] = type;
+            relic["slotKey"] = toTitleCase(type);
             break;
         }
     }
@@ -168,7 +166,7 @@ function parse(text, text_alt, raw) {
     // level
     var level = text_alt.match("[+]([0-9]+)");
     if (level) {
-        relic["level"] = raw ? level[1] : parseInt(level[1]);
+        relic["level"] = parseInt(level[1]);
     }
 
     // mainstat
@@ -176,7 +174,7 @@ function parse(text, text_alt, raw) {
     for (const stat of stats) {
         let m = text.search(stat + " *[0-9]+.?[0-9]*%");
         if (m >= 0 && m < pos) {
-            relic["mainStatKey"] = raw ? stat + '%' : stat + '_';
+            relic["mainStatKey"] = stat + '_';
             pos = m;
         }
         m = text.search(stat + " *[0-9]+\\s");

@@ -34,7 +34,7 @@ const recognize = async function(evt){
   });
   console.log(ret_alt.data.text);
 
-  const relic = parse(ret.data.text, ret_alt.data.text, false);
+  const relic = parse(ret.data.text, ret_alt.data.text);
 
   // display relic on popup
   document.getElementById("popup-relic").textContent = JSON.stringify(relic);
