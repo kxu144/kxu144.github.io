@@ -54,13 +54,16 @@ function renderRelics() {
         // substats
         for (const [stat, value] of Object.entries(relic.substats)) {
             var statp = document.createElement("div");
+            if (stat.slice(-1) == '_') {
+                statp.innerHTML = artiToDisplay(stat.substring(0, stat.length - 1)) + '<span style="float:right;margin-right:2%;">' + value + '%</span>';
+            } else {
+                statp.innerHTML = artiToDisplay(stat) + '<span style="float:right;margin-right:2%;">' + value + '</span>';
+            }
             if (stat == relic.mainStatKey) {
                 statp.className = "p-mainstat";
-                statp.innerText = stat + "\t" + value;
                 gridItem.insertBefore(statp, gridItem.childNodes[3]);
             } else {
                 statp.className = "p-substat";
-                statp.innerText = stat + "\t" + value;
                 gridItem.appendChild(statp);
             }
         }
@@ -81,6 +84,19 @@ function toTitleCase(str) {
 }
 function toNormalCase(str) {
     return str.replace(/([A-Z])/g, " $1");
+}
+
+function artiToDisplay(arti) {
+    if (arti == 'hp' || arti == 'atk' || arti == 'def' || arti == 'spd') {
+        return arti.toUpperCase();
+    }
+    if (arti == 'critRate') {
+        return 'CRIT Rate';
+    }
+    if (arti == 'critDMG') {
+        return 'CRIT DMG';
+    }
+    return toTitleCase(arti.replaceAll("_", " "));
 }
 
 // API
