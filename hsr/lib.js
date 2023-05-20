@@ -29,14 +29,43 @@ function renderRelics() {
     var grid = document.getElementById("relic-list");
     grid.innerHTML = '';
     const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-    relics.forEach((item) => {
+    relics.forEach((relic) => {
         var gridItem = document.createElement("div");
         gridItem.className = "grid-item";
-        gridItem.innerText = JSON.stringify(item);
+
+        // set
+        var setp = document.createElement("div");
+        setp.className = "p-setkey";
+        setp.innerText = toNormalCase(relic.setKey);
+        gridItem.appendChild(setp);
+
+        // slot
+        var slotp = document.createElement("div");
+        slotp.className = "p-slotkey";
+        slotp.innerText = toTitleCase(relic.slotKey);
+        gridItem.appendChild(slotp);
+
+        // level
+        var levelp = document.createElement("div");
+        levelp.className = "p-level";
+        levelp.innerText = "+" + relic.level;
+        gridItem.appendChild(levelp);
+
+        // main stat
+        var mainp = document.createElement("div");
+        mainp.className = "p-mainstat";
+        mainp.innerText = relic.mainStatKey;
+        gridItem.appendChild(mainp);
+
+        // substats
+        for (const [stat, value] of Object.entries(relic.substats)) {
+            var subp = document.createElement("div");
+            subp.className = "p-substat";
+            subp.innerText = stat + "\t" + value;
+            gridItem.appendChild(subp);
+        }
+
         grid.appendChild(gridItem);
-        // const listItem = document.createElement('li');
-        // listItem.textContent = JSON.stringify(item);
-        // listContainer.appendChild(listItem);
     });
 
     //document.getElementById("relic-list").innerHTML = grid.innerHTML;
@@ -49,6 +78,9 @@ function toTitleCase(str) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         }
     );
+}
+function toNormalCase(str) {
+    return str.replace(/([A-Z])/g, " $1");
 }
 
 // API
@@ -95,15 +127,17 @@ stats = [
     'spd',
 ];
 
-function parse(str, str_alt) {
-    var text = str.toLowerCase()
-        .replaceAll("crit rate", "critRate")
-        .replaceAll('crit dmg', 'critDMG')
-        .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
-        .replaceAll('effect hit rate', 'effect_hit_rate')
-        .replaceAll('effect res', 'effect_res')
-        .replaceAll('break effect', 'break_effect');
-    var text_alt = str_alt.toLowerCase();
+function parse(text, text_alt, raw) {
+    if (!raw) {
+        var text = str.toLowerCase()
+            .replaceAll("crit rate", "critRate")
+            .replaceAll('crit dmg', 'critDMG')
+            .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
+            .replaceAll('effect hit rate', 'effect_hit_rate')
+            .replaceAll('effect res', 'effect_res')
+            .replaceAll('break effect', 'break_effect');
+        var text_alt = str_alt.toLowerCase();
+    }
     var relic = {
         "setKey": "",
         "slotKey": "",
@@ -113,28 +147,36 @@ function parse(str, str_alt) {
         "location": "",
         "lock": false,
         "substats": {},
-        };
+    };
+
+    // set
     for (const set of relic_sets) {
         if (text.includes(set)) {
-            relic["setKey"] = toTitleCase(set).replaceAll(" ", "");
+            relic["setKey"] = raw ? set : toTitleCase(set).replaceAll(" ", "");
             break;
         }
     }
+
+    // slot
     for (const type of relic_types) {
         if (text_alt.includes(type)) {
             relic["slotKey"] = type;
             break;
         }
     }
+
+    // level
     var level = text_alt.match("[+]([0-9]+)");
     if (level) {
-        relic["level"] = parseInt(level[1]);
+        relic["level"] = raw ? level[1] : parseInt(level[1]);
     }
+
+    // mainstat
     var pos = text.length;
     for (const stat of stats) {
         let m = text.search(stat + " *[0-9]+.?[0-9]*%");
         if (m >= 0 && m < pos) {
-            relic["mainStatKey"] = stat + '_';
+            relic["mainStatKey"] = raw ? stat + '%' : stat + '_';
             pos = m;
         }
         m = text.search(stat + " *[0-9]+\\s");
@@ -154,19 +196,6 @@ function parse(str, str_alt) {
         }
     }
 
-    // display relic on popup
-    document.getElementById("popup-relic").textContent = JSON.stringify(relic);
-
-    var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-    if (relics.some(r => compareRelics(relic, r))) {
-        document.getElementById("popup-errno").textContent = "Relic already present in database";
-        console.log("Relic already present in database");
-    } else {
-        // relics.push(relic);
-        // localStorage.setItem("user-relics", JSON.stringify(relics));
-        // renderList(relics, "relic-list");
-    }
-    sessionStorage.setItem("new-relic", JSON.stringify(relic));
-    document.getElementById("upload-button").disabled = false;
+    return relic;
 }
   

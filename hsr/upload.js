@@ -34,7 +34,22 @@ const recognize = async function(evt){
   });
   console.log(ret_alt.data.text);
 
-  parse(ret.data.text, ret_alt.data.text);
+  parse(ret.data.text, ret_alt.data.text, false);
+
+  // display relic on popup
+  document.getElementById("popup-relic").textContent = JSON.stringify(relic);
+
+  var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
+  if (relics.some(r => compareRelics(relic, r))) {
+      document.getElementById("popup-errno").textContent = "Relic already present in database";
+      console.log("Relic already present in database");
+  } else {
+      // relics.push(relic);
+      // localStorage.setItem("user-relics", JSON.stringify(relics));
+      // renderList(relics, "relic-list");
+  }
+  sessionStorage.setItem("new-relic", JSON.stringify(relic));
+  document.getElementById("upload-button").disabled = false;
   
   elm.value = '';
 }

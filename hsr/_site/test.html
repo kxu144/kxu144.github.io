@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
       .popup {
@@ -19,36 +20,35 @@
           position: relative;
           background-color: #ffffff;
           margin: 5% auto;
-          padding: 20px;
-          border: 1px solid #888888;
+          padding: 1%;
           width: 50%;
           height: 40%;
       }
       .popup-content .close-button {
           position: absolute;
-          top: 10px;
-          right: 10px;
+          top: 2%;
+          right: 2%;
           display: block;
           margin: 0 auto;
       }
       .popup-content .upload-button {
           position: absolute;
-          bottom: 10px;
-          left: 10px;
+          bottom: 2%;
+          left: 2%;
           display: block;
           margin: 0 auto;
       }
       .popup-content .errno {
           position: absolute;
-          bottom: 10px;
-          left: 150px;
+          bottom: 2%;
+          left: 30%;
           display: block;
           margin: 0 auto;
           color: red;
       }
       .popup-content .popup-relic {
           position: absolute;
-          top: 150px;
+          top: 30%;
           display: block;
           margin: 0 auto;
           word-break: break-all;
@@ -58,17 +58,61 @@
       }
 
       .grid-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        background-color: #2196F3;
-        padding: 10px;
+          position: fixed;
+          display: grid;
+          width: 98%;
+          border-radius: 1%;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+          grid-gap: 0.5%;
+          background-color: #222222;
+          padding: 0.5%;
       }
       .grid-item {
-        background-color: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(0, 0, 0, 0.8);
-        padding: 20px;
-        text-align: center;
-        word-break: break-all;
+          background-image:url("lib/arti_blank.png");
+          background-size: 100% auto;
+          position: relative;
+          aspect-ratio: 1 / 1.15;
+          border-radius: 1%;
+          padding: 2%;
+          font-family: Arial;
+      }
+      .grid-item .p-setkey {
+          position: relative;
+          left: 2%;
+          top: 98%;
+          color: #F1A23C;
+          font-size: 1vw;
+      }
+      .grid-item .p-slotkey {
+          position: relative;
+          left: 2%;
+          top: 28%;
+          color: #bbbbbb;
+          font-size: 1vw; 
+          text-shadow: 1px 1px #6F4F43;
+      }
+      .grid-item .p-level {
+          position: relative;
+          left: 2%;
+          top: 28%;
+          color: #ffffff;
+          font-size: 2vw;
+          text-shadow: 1px 1px #6F4F43;
+      }
+      .grid-item .p-mainstat {
+          position: relative;
+          left: 2%;
+          top: 37%;
+          color: #F1A23C;
+          font-size: 1.25vw;
+      }
+      .grid-item .p-substat {
+          position: relative;
+          left: 2%;
+          top: 40%;
+          color: #ffffff;
+          font-size: 1vw;
+          margin-bottom: 2.4%;
       }
     </style>
 
