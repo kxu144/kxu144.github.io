@@ -129,13 +129,13 @@ stats = [
 
 function parse(str, str_alt) {
     var text = str.toLowerCase()
-        .replaceAll("crit rate", "critRate")
-        .replaceAll('crit dmg', 'critDMG')
-        .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
-        .replaceAll('effect hit rate', 'effect_hit_rate')
-        .replaceAll('effect res', 'effect_res')
-        .replaceAll('break effect', 'break_effect');
-    var str_alt = text_alt.toLowerCase();
+            .replaceAll("crit rate", "critRate")
+            .replaceAll('crit dmg', 'critDMG')
+            .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
+            .replaceAll('effect hit rate', 'effect_hit_rate')
+            .replaceAll('effect res', 'effect_res')
+            .replaceAll('break effect', 'break_effect');
+    var text_alt = str_alt.toLowerCase();
     var relic = {
         "setKey": "",
         "slotKey": "",
@@ -150,7 +150,7 @@ function parse(str, str_alt) {
     // set
     for (const set of relic_sets) {
         if (text.includes(set)) {
-            relic["setKey"] = toTitleCase(set);
+            relic["setKey"] = toTitleCase(set).replaceAll(" ", "");
             break;
         }
     }
@@ -158,7 +158,7 @@ function parse(str, str_alt) {
     // slot
     for (const type of relic_types) {
         if (text_alt.includes(type)) {
-            relic["slotKey"] = toTitleCase(type);
+            relic["slotKey"] = type;
             break;
         }
     }
