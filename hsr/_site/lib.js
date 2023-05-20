@@ -51,18 +51,16 @@ function renderRelics() {
         levelp.innerText = "+" + relic.level;
         gridItem.appendChild(levelp);
 
-        // main stat
-        var mainp = document.createElement("div");
-        mainp.className = "p-mainstat";
-        mainp.innerText = relic.mainStatKey;
-        gridItem.appendChild(mainp);
-
-        // substats
+        // stats
         for (const [stat, value] of Object.entries(relic.substats)) {
-            var subp = document.createElement("div");
-            subp.className = "p-substat";
-            subp.innerText = stat + "\t" + value;
-            gridItem.appendChild(subp);
+            var statp = document.createElement("div");
+            if (stat == relic.mainStatKey) {
+                statp.className = "p-mainstat";
+            } else {
+                statp.className = "p-substat";
+            }
+            statp.innerText = stat + "\t" + value;
+            gridItem.appendChild(statp);
         }
 
         grid.appendChild(gridItem);
@@ -169,31 +167,20 @@ function parse(str, str_alt) {
         relic["level"] = parseInt(level[1]);
     }
 
-    // mainstat
-    var pos = text.length;
-    for (const stat of stats) {
-        let m = text.search(stat + " *[0-9]+.?[0-9]*%");
-        if (m >= 0 && m < pos) {
-            relic["mainStatKey"] = stat + '_';
-            pos = m;
-        }
-        m = text.search(stat + " *[0-9]+\\s");
-        if (m >= 0 && m < pos) {
-            relic["mainStatKey"] = stat;
-            pos = m;
-        }
-    }
+    // stats
     for (const stat of stats) {
         let m = text.match(stat + " *([0-9]+.?[0-9]*)%");
-        if (m && relic["mainStatKey"] != stat + '_') {
+        if (m) {
             relic["substats"][stat + '_'] = parseFloat(m[1]);
         }
         m = text.match(stat + " *([0-9]+)\\s");
-        if (m && relic["mainStatKey"] != stat) {
+        if (m) {
             relic["substats"][stat] = parseInt(m[1]);
         }
+    }
+    if (relic["substats"].length > 0) {
+        relic["mainStatKey"] = Object.keys(relic["substats"])[0];
     }
 
     return relic;
 }
-  
