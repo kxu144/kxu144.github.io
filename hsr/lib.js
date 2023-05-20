@@ -129,14 +129,14 @@ stats = [
 
 function parse(text, text_alt, raw) {
     if (!raw) {
-        var text = str.toLowerCase()
+        text = text.toLowerCase()
             .replaceAll("crit rate", "critRate")
             .replaceAll('crit dmg', 'critDMG')
             .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
             .replaceAll('effect hit rate', 'effect_hit_rate')
             .replaceAll('effect res', 'effect_res')
             .replaceAll('break effect', 'break_effect');
-        var text_alt = str_alt.toLowerCase();
+        text_alt = text_alt.toLowerCase();
     }
     var relic = {
         "setKey": "",
