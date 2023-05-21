@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+      * {
+          box-sizing: border-box;
+      }
+      html {
+          text-size-adjust: 100%;
+      }
+      body {
+          margin: 0;
+      }
       .popup {
           position: fixed;
           z-index: 1;
@@ -58,42 +67,57 @@
       }
 
       .grid-container {
-          position: fixed;
-          display: grid;
-          width: 98%;
-          border-radius: 1%;
-          grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-          grid-gap: 0.5%;
-          background-color: #222222;
-          padding: 0.5%;
+          display: flex;
+          flex-wrap: wrap;
+          padding: 0 4px;
+          border: 1px solid black;
       }
       .grid-item {
-          background-image:url("lib/arti_blank.png");
-          background-size: 100% auto;
           position: relative;
-          aspect-ratio: 1 / 1.15;
-          font-family: 'Arial Narrow';
+          flex: 25%;
+          max-width: 25%;
+          height: min-content;
+          border: 1px solid black;
       }
-      .grid-item .p-title {
-          position: relative;
-          left: 2%;
-          top: 0%;
-          color: #F1A23C;
-          font-size: 1.25vw;
+      .grid-container .grid-item img {
+          pointer-events: none;
+          object-fit: contain;
+          width: 100%;
+          z-index: -1;
+      }
+      .grid-item p {
+          position: absolute;
+          font-family: "Arial Narrow";
+      }
+
+
+
+      /* Responsive layout */
+      @media screen and (max-width: 900px) {
+          .grid-item {
+              flex: 33.3333%;
+              max-width: 33.3333%;
+          }
+      }
+      @media screen and (max-width: 600px) {
+          .grid-item {
+              flex: 50%;
+              max-width: 50%;
+          }
       }
       .grid-item .p-setkey {
           position: relative;
-          left: 2%;
-          top: 98%;
+          left: 10px;
+          top: 25px;
           color: #F1A23C;
-          font-size: 1vw;
+          font-size: 18px;
       }
       .grid-item .p-slotkey {
           position: relative;
           left: 2%;
           top: 28%;
           color: #bbbbbb;
-          font-size: 1vw; 
+          font-size: 15px; 
           text-shadow: 1px 1px #6F4F43;
       }
       .grid-item .p-level {
@@ -101,7 +125,7 @@
           left: 2%;
           top: 28%;
           color: #ffffff;
-          font-size: 2vw;
+          font-size: 30px;
           text-shadow: 1px 1px #6F4F43;
       }
       .grid-item .p-mainstat {
@@ -109,15 +133,15 @@
           left: 2%;
           top: 37%;
           color: #F1A23C;
-          font-size: 1.25vw;
+          font-size: 18px;
       }
       .grid-item .p-substat {
           position: relative;
           left: 2%;
-          top: 40%;
+          top: 42%;
           color: #ffffff;
-          font-size: 1vw;
-          margin-bottom: 2.4%;
+          font-size: 14px;
+          margin-bottom: 3%;
       }
     </style>
 
@@ -179,8 +203,6 @@
 
     <!-- RELIC DATABASE -->
     <div class="grid-container" id="relic-list"></div>
-    
-    <!-- <ul id="relic-list"></ul> -->
 
     <script type="module" src="upload.js"></script>
     <script>

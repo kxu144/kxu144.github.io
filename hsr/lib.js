@@ -63,37 +63,40 @@ function renderRelic(relic) {
     var gridItem = document.createElement("div");
     gridItem.className = "grid-item";
 
+    // blank image
+    var bg = document.createElement("img");
+    bg.src = "lib/arti_blank.png";
+    gridItem.appendChild(bg);
+
     // set
-    var setp = document.createElement("div");
-    setp.className = "p-setkey";
+    var setp = document.createElement("p");
+    setp.style.color = "#F1A23C";
+    setp.style.left = "0";
+    setp.style.top = "2%";
     setp.innerText = toNormalCase(relic.setKey);
     gridItem.appendChild(setp);
 
     // slot
-    var slotp = document.createElement("div");
-    slotp.className = "p-slotkey";
+    var slotp = document.createElement("p");
     slotp.innerText = toTitleCase(relic.slotKey);
     gridItem.appendChild(slotp);
 
     // level
-    var levelp = document.createElement("div");
-    levelp.className = "p-level";
+    var levelp = document.createElement("p");
     levelp.innerText = "+" + relic.level;
     gridItem.appendChild(levelp);
 
     // substats
     for (const [stat, value] of Object.entries(relic.substats)) {
-        var statp = document.createElement("div");
+        var statp = document.createElement("p");
         if (stat.slice(-1) == '_') {
             statp.innerHTML = artiToDisplay(stat.substring(0, stat.length - 1)) + '<span style="float:right;margin-right:2%;">' + value + '%</span>';
         } else {
             statp.innerHTML = artiToDisplay(stat) + '<span style="float:right;margin-right:2%;">' + value + '</span>';
         }
         if (stat == relic.mainStatKey) {
-            statp.className = "p-mainstat";
             gridItem.insertBefore(statp, gridItem.childNodes[3]);
         } else {
-            statp.className = "p-substat";
             gridItem.appendChild(statp);
         }
     }
