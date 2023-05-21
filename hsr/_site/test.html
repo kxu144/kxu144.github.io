@@ -88,6 +88,7 @@
       .grid-item p {
           position: absolute;
           font-family: "Arial Narrow";
+          left: 2%;
       }
 
 
@@ -190,6 +191,7 @@
               popup.classList.remove("show");
           }
       });
+      
       buttonUpload.addEventListener("click", function () {
           if (!sessionStorage.getItem("new-relic")) alert("No relic found.");
           const relic = JSON.parse(sessionStorage.getItem("new-relic"));
@@ -216,6 +218,21 @@
           fileInput.files = e.clipboardData.files;
           fileInput.dispatchEvent(new Event("change"));
         });
+
+        function adjustFontSize(className) {
+            const elements = document.getElementsByClassName(className);
+
+            // Convert the NodeList to an array to use forEach
+            Array.from(elements).forEach(element => {
+                const parentWidth = element.offsetWidth;
+                const fontSize = parentWidth * 0.05; // Set font size to 10% of parent width
+                element.style.fontSize = `${fontSize}px`;
+            });
+        }
+        window.addEventListener("resize", () => {
+            adjustFontSize("grid-item");
+        });
+        adjustFontSize("grid-item");
       });
     </script>    
   </body>

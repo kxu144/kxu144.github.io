@@ -68,21 +68,28 @@ function renderRelic(relic) {
     bg.src = "lib/arti_blank.png";
     gridItem.appendChild(bg);
 
+    // svg
+    var svg = document.createElement("svg");
+    
+
     // set
     var setp = document.createElement("p");
-    setp.style.color = "#F1A23C";
-    setp.style.left = "0";
+    setp.style.color = "#f1a23c";
     setp.style.top = "2%";
     setp.innerText = toNormalCase(relic.setKey);
     gridItem.appendChild(setp);
 
     // slot
     var slotp = document.createElement("p");
+    slotp.style.color = "#bbbbbb";
+    slotp.style.top = "30%";
     slotp.innerText = toTitleCase(relic.slotKey);
     gridItem.appendChild(slotp);
 
     // level
     var levelp = document.createElement("p");
+    levelp.style.color = "white";
+    levelp.style.top = "36%";
     levelp.innerText = "+" + relic.level;
     gridItem.appendChild(levelp);
 
@@ -103,6 +110,7 @@ function renderRelic(relic) {
 
     return gridItem;
 }
+
 
 // API
 relic_sets = [
