@@ -88,23 +88,36 @@ function renderRelic(relic) {
 
     // level
     var levelp = document.createElement("p");
-    levelp.style.color = "white";
     levelp.style.top = "36%";
     levelp.innerText = "+" + relic.level;
     gridItem.appendChild(levelp);
 
     // substats
+    var ofs = 0;
     for (const [stat, value] of Object.entries(relic.substats)) {
         var statp = document.createElement("p");
+        var valuep = document.createElement("p");
+        valuep.style.left = "auto";
+        valuep.style.right = "2%";
+        
         if (stat.slice(-1) == '_') {
-            statp.innerHTML = artiToDisplay(stat.substring(0, stat.length - 1)) + '<span style="float:right;margin-right:2%;">' + value + '%</span>';
+            statp.innerText = artiToDisplay(stat.substring(0, stat.length - 1));
+            valuep.innerText = value + "%";
         } else {
-            statp.innerHTML = artiToDisplay(stat) + '<span style="float:right;margin-right:2%;">' + value + '</span>';
+            statp.innerHTML = artiToDisplay(stat);
+            valuep.innerText = value;
         }
         if (stat == relic.mainStatKey) {
+            statp.style.top = "54%";
+            valuep.style.top = "54%";
+            gridItem.insertBefore(valuep, gridItem.childNodes[3]);
             gridItem.insertBefore(statp, gridItem.childNodes[3]);
         } else {
+            statp.style.top = 62 + 8 * ofs + "%";
+            valuep.style.top = 62 + 8 * ofs + "%";
+            ofs += 1;
             gridItem.appendChild(statp);
+            gridItem.appendChild(valuep);
         }
     }
 
