@@ -28,10 +28,9 @@
       .popup-content {
           position: relative;
           background-color: #ffffff;
-          margin: 5% auto;
           padding: 1%;
           width: 50%;
-          height: 40%;
+          height: 100%;
       }
       .popup-content .close-button {
           position: absolute;
@@ -70,7 +69,6 @@
           display: flex;
           flex-wrap: wrap;
           padding: 0 4px;
-          border: 1px solid black;
           justify-content: space-between;
       }
       .grid-item {
@@ -78,7 +76,6 @@
           flex: 25%;
           max-width: 25%;
           height: min-content;
-          border: 1px solid black;
       }
       .grid-container .grid-item img {
           pointer-events: none;
@@ -108,44 +105,6 @@
               max-width: 50%;
           }
       }
-      .grid-item .p-setkey {
-          position: relative;
-          left: 10px;
-          top: 25px;
-          color: #F1A23C;
-          font-size: 18px;
-      }
-      .grid-item .p-slotkey {
-          position: relative;
-          left: 2%;
-          top: 28%;
-          color: #bbbbbb;
-          font-size: 15px; 
-          text-shadow: 1px 1px #6F4F43;
-      }
-      .grid-item .p-level {
-          position: relative;
-          left: 2%;
-          top: 28%;
-          color: #ffffff;
-          font-size: 30px;
-          text-shadow: 1px 1px #6F4F43;
-      }
-      .grid-item .p-mainstat {
-          position: relative;
-          left: 2%;
-          top: 37%;
-          color: #F1A23C;
-          font-size: 18px;
-      }
-      .grid-item .p-substat {
-          position: relative;
-          left: 2%;
-          top: 42%;
-          color: #ffffff;
-          font-size: 14px;
-          margin-bottom: 3%;
-      }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
@@ -155,14 +114,13 @@
     <button id="button-addrelic">Add New Relic</button>
     <div id="popup-addrelic" class="popup">
       <div id="popup-content" class="popup-content">
-        <h1>Relic Editor</h1>
+        <p>Relic Editor</p>
         <button class="close-button" id="popup-close">
           Close
         </button>
         <input type="file" id="uploader" accept="image/*">
         <button class="upload-button" id="upload-button" disabled>Add Relic</button>
         <p class="errno" id="popup-errno"></p>
-        <p class="popup-relic" id="popup-relic"></p>
       </div>
     </div>
     <script>

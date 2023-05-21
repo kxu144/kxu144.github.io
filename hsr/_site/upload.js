@@ -36,14 +36,16 @@ const recognize = async function(evt){
 
   const relic = parse(ret.data.text, ret_alt.data.text);
 
-  // display relic on popup
-  document.getElementById("popup-relic").textContent = JSON.stringify(relic);
-
   // relic preview
   const preview = renderRelic(relic);
+  preview.style.flex = "50%";
+  preview.style.maxWidth = "50%";
   preview.id = "relic-preview";
-  preview.style.width = "30%";
-  document.getElementById("popup-addrelic").appendChild(preview);
+  const tempGrid = document.createElement("div");
+  tempGrid.className = "grid-container";
+  tempGrid.appendChild(document.createElement("div"));
+  tempGrid.appendChild(preview);
+  document.getElementById("popup-content").appendChild(tempGrid);
 
   var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
   if (relics.some(r => compareRelics(relic, r))) {
