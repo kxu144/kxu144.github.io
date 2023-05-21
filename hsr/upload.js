@@ -42,7 +42,8 @@ const recognize = async function(evt){
   // relic preview
   const preview = renderRelic(relic);
   preview.id = "relic-preview";
-  document.getElementById("popup-content").appendChild(renderRelic(relic));
+  preview.style.width = "30%";
+  document.getElementById("popup-content").appendChild(preview);
 
   var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
   if (relics.some(r => compareRelics(relic, r))) {
