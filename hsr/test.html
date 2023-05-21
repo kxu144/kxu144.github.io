@@ -41,14 +41,14 @@
       }
       .popup-content .upload-button {
           position: absolute;
-          bottom: 2%;
+          top: 50%;
           left: 2%;
           display: block;
           margin: 0 auto;
       }
       .popup-content .errno {
           position: absolute;
-          bottom: 2%;
+          top: 50%;
           left: 30%;
           display: block;
           margin: 0 auto;
@@ -126,8 +126,7 @@
     <script>
       function reset() {
         document.getElementById("popup-errno").textContent = "";
-        document.getElementById("popup-relic").textContent = "";
-        const preview = document.getElementById("relic-preview");
+        const preview = document.getElementById("relic-preview-container");
         if (preview) {
           document.getElementById("popup-content").removeChild(preview);
         }

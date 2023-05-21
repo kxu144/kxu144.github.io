@@ -42,6 +42,7 @@ const recognize = async function(evt){
   preview.style.maxWidth = "50%";
   preview.id = "relic-preview";
   const tempGrid = document.createElement("div");
+  tempGrid.id = "relic-preview-container";
   tempGrid.className = "grid-container";
   tempGrid.appendChild(document.createElement("div"));
   tempGrid.appendChild(preview);
