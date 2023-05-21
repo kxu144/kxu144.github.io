@@ -39,6 +39,11 @@ const recognize = async function(evt){
   // display relic on popup
   document.getElementById("popup-relic").textContent = JSON.stringify(relic);
 
+  // relic preview
+  const preview = renderRelic(relic);
+  preview.id = "relic-preview";
+  document.getElementById("popup-content").appendChild(renderRelic(relic));
+
   var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
   if (relics.some(r => compareRelics(relic, r))) {
       document.getElementById("popup-errno").textContent = "Relic already present in database";

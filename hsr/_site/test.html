@@ -129,7 +129,7 @@
   <body>
     <button id="button-addrelic">Add New Relic</button>
     <div id="popup-addrelic" class="popup">
-      <div class="popup-content">
+      <div id="popup-content" class="popup-content">
         <h1>Relic Editor</h1>
         <button class="close-button" id="popup-close">
           Close
@@ -144,6 +144,10 @@
       function reset() {
         document.getElementById("popup-errno").textContent = "";
         document.getElementById("popup-relic").textContent = "";
+        const preview = document.getElementById("relic-preview");
+        if (preview) {
+          document.getElementById("popup-content").removeChild(preview);
+        }
         buttonUpload.disabled = true;
       }
 

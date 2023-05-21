@@ -30,48 +30,8 @@ function renderRelics() {
     grid.innerHTML = '';
     const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
     relics.forEach((relic) => {
-        var gridItem = document.createElement("div");
-        gridItem.className = "grid-item";
-
-        // set
-        var setp = document.createElement("div");
-        setp.className = "p-setkey";
-        setp.innerText = toNormalCase(relic.setKey);
-        gridItem.appendChild(setp);
-
-        // slot
-        var slotp = document.createElement("div");
-        slotp.className = "p-slotkey";
-        slotp.innerText = toTitleCase(relic.slotKey);
-        gridItem.appendChild(slotp);
-
-        // level
-        var levelp = document.createElement("div");
-        levelp.className = "p-level";
-        levelp.innerText = "+" + relic.level;
-        gridItem.appendChild(levelp);
-
-        // substats
-        for (const [stat, value] of Object.entries(relic.substats)) {
-            var statp = document.createElement("div");
-            if (stat.slice(-1) == '_') {
-                statp.innerHTML = artiToDisplay(stat.substring(0, stat.length - 1)) + '<span style="float:right;margin-right:2%;">' + value + '%</span>';
-            } else {
-                statp.innerHTML = artiToDisplay(stat) + '<span style="float:right;margin-right:2%;">' + value + '</span>';
-            }
-            if (stat == relic.mainStatKey) {
-                statp.className = "p-mainstat";
-                gridItem.insertBefore(statp, gridItem.childNodes[3]);
-            } else {
-                statp.className = "p-substat";
-                gridItem.appendChild(statp);
-            }
-        }
-
-        grid.appendChild(gridItem);
+        grid.appendChild(renderRelic(relic));
     });
-
-    //document.getElementById("relic-list").innerHTML = grid.innerHTML;
 }
 
 function toTitleCase(str) {
@@ -97,6 +57,48 @@ function artiToDisplay(arti) {
         return 'CRIT DMG';
     }
     return toTitleCase(arti.replaceAll("_", " "));
+}
+
+function renderRelic(relic) {
+    var gridItem = document.createElement("div");
+    gridItem.className = "grid-item";
+
+    // set
+    var setp = document.createElement("div");
+    setp.className = "p-setkey";
+    setp.innerText = toNormalCase(relic.setKey);
+    gridItem.appendChild(setp);
+
+    // slot
+    var slotp = document.createElement("div");
+    slotp.className = "p-slotkey";
+    slotp.innerText = toTitleCase(relic.slotKey);
+    gridItem.appendChild(slotp);
+
+    // level
+    var levelp = document.createElement("div");
+    levelp.className = "p-level";
+    levelp.innerText = "+" + relic.level;
+    gridItem.appendChild(levelp);
+
+    // substats
+    for (const [stat, value] of Object.entries(relic.substats)) {
+        var statp = document.createElement("div");
+        if (stat.slice(-1) == '_') {
+            statp.innerHTML = artiToDisplay(stat.substring(0, stat.length - 1)) + '<span style="float:right;margin-right:2%;">' + value + '%</span>';
+        } else {
+            statp.innerHTML = artiToDisplay(stat) + '<span style="float:right;margin-right:2%;">' + value + '</span>';
+        }
+        if (stat == relic.mainStatKey) {
+            statp.className = "p-mainstat";
+            gridItem.insertBefore(statp, gridItem.childNodes[3]);
+        } else {
+            statp.className = "p-substat";
+            gridItem.appendChild(statp);
+        }
+    }
+
+    return gridItem;
 }
 
 // API
