@@ -44,7 +44,6 @@ const recognize = async function(evt){
   const tempGrid = document.createElement("div");
   tempGrid.id = "relic-preview-container";
   tempGrid.className = "grid-container";
-  tempGrid.appendChild(document.createElement("div"));
   tempGrid.appendChild(preview);
   document.getElementById("popup-content").appendChild(tempGrid);
 
