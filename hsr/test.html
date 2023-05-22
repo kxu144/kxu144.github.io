@@ -61,9 +61,21 @@
           margin: 0 auto;
           word-break: break-all;
       }
+      .popup-clear {
+          position: relative;
+          background-color: #ffffff;
+          padding: 1%;
+          margin: 5% auto;
+          width: 50%;
+          height: 10%;
+      }
       .show {
           display: block;
       }
+
+
+
+
 
       .grid-container {
           display: flex;
@@ -133,21 +145,21 @@
         buttonUpload.disabled = true;
       }
 
-      const button = document.getElementById("button-addrelic");
-      const popup = document.getElementById("popup-addrelic");
-      button.addEventListener("click", function () {
-          popup.classList.add("show");
+      const buttonAddRelic = document.getElementById("button-addrelic");
+      const popupAddRelic = document.getElementById("popup-addrelic");
+      buttonAddRelic.addEventListener("click", function () {
+          popupAddRelic.classList.add("show");
       });
       const buttonClose = document.getElementById("popup-close");
       const buttonUpload = document.getElementById("upload-button");
       buttonClose.addEventListener("click", function () {
           reset();
-          popup.classList.remove("show");
+          popupAddRelic.classList.remove("show");
       });
       window.addEventListener("click", function (event) {
-          if (event.target == popup) {
+          if (event.target == popupAddRelic) {
               reset();
-              popup.classList.remove("show");
+              popupAddRelic.classList.remove("show");
           }
       });
       
@@ -162,7 +174,37 @@
       })
     </script>
 
+    <button id="button-clearrelic">Clear All Relics</button>
+    <div id="popup-clear" class="popup">
+      <div id="popup-clear-content" class="popup-clear">
+        <p>Are you sure?</p>
+        <button id="button-clearrelic-yes">Yes</button>
+        <button id="button-clearrelic-no">No</button>
+      </div>
+    </div>
+    <script>
+      const buttonClearRelic = document.getElementById("button-clearrelic");
+      const popupClearRelic = document.getElementById("popup-clear");
+      buttonClearRelic.addEventListener("click", function () {
+          popupClearRelic.classList.add("show");
+      });
+      document.getElementById("button-clearrelic-yes").addEventListener("click", function () {
+          localStorage.removeItem("user-relics");
+          popupClearRelic.classList.remove("show");
+          renderRelics();
+      });
+      document.getElementById("button-clearrelic-no").addEventListener("click", function () {
+          popupClearRelic.classList.remove("show");
+      });
+      window.addEventListener("click", function (event) {
+          if (event.target == popupClearRelic) {
+              popupClearRelic.classList.remove("show");
+          }
+      })
+    </script>
+
     <!-- RELIC DATABASE -->
+    <p id="no-relic-p">No relics found!</p>
     <div class="grid-container" id="relic-list"></div>
 
     <script type="module" src="upload.js"></script>

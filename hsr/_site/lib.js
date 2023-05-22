@@ -29,6 +29,9 @@ function renderRelics() {
     var grid = document.getElementById("relic-list");
     grid.innerHTML = '';
     const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
+    console.log(relics.length);
+    if (relics.length > 0) document.getElementById("no-relic-p").style.display = "none";
+    else document.getElementById("no-relic-p").style.display = "block";
     relics.forEach((relic) => {
         grid.appendChild(renderRelic(relic));
     });
