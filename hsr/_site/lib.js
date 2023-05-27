@@ -71,9 +71,23 @@ function renderRelic(relic) {
     bg.src = "lib/arti_blank.png";
     gridItem.appendChild(bg);
 
-    // svg
-    var svg = document.createElement("svg");
-    
+    // edit button
+    var editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.style.top = "2%";
+    editButton.style.right = "2%";
+    let editMode = false;
+    editButton.onclick = function() {
+        editMode = !editMode;
+        if (editMode) {
+            editRelic(gridItem);
+            editButton.textContent = "Save";
+        } else {
+            dispRelic(gridItem);
+            editButton.textContent = "Edit";
+        }
+    };
+    gridItem.appendChild(editButton);
 
     // set
     var setp = document.createElement("p");
@@ -102,6 +116,7 @@ function renderRelic(relic) {
         var valuep = document.createElement("p");
         valuep.style.left = "auto";
         valuep.style.right = "2%";
+        valuep.style.textAlign = "right";
         
         if (stat.slice(-1) == '_') {
             statp.innerText = artiToDisplay(stat.substring(0, stat.length - 1));
@@ -125,6 +140,45 @@ function renderRelic(relic) {
     }
 
     return gridItem;
+}
+
+function editRelic(relic_node) {
+    const stats = relic_node.querySelectorAll("p");
+    stats.forEach((stat) => {
+        function resizeInput() {
+            this.setAttribute("size", this.value.length + 1);
+        }
+        const inp = document.createElement("input");
+        inp.type = "text";
+        inp.value = stat.textContent;
+        inp.style.color = stat.style.color;
+        inp.style.top = (parseFloat(stat.style.top) + 4) + "%";
+        if (stat.style.right) {
+            inp.style.left = "auto";
+            inp.style.right = stat.style.right;
+        }
+        inp.style.textAlign = stat.style.textAlign;
+        inp.style.backgroundColor = "transparent";
+        resizeInput.call(inp);
+        inp.addEventListener("input", resizeInput);
+        relic_node.replaceChild(inp, stat);
+    });
+}
+
+function dispRelic(relic_node) {
+    const stats = relic_node.querySelectorAll("input");
+    stats.forEach((inp) => {
+        const p = document.createElement("p");
+        p.innerText = inp.value;
+        p.style.color = inp.style.color;
+        p.style.top = (parseFloat(inp.style.top) - 4) + "%";
+        if (inp.style.right) {
+            p.style.left = "auto";
+            p.style.right = inp.style.right;
+        }
+        p.style.textAlign = inp.style.textAlign;
+        relic_node.replaceChild(p, inp);
+    });
 }
 
 
