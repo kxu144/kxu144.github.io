@@ -33,7 +33,27 @@ function renderRelics() {
     if (relics.length > 0) document.getElementById("no-relic-p").style.display = "none";
     else document.getElementById("no-relic-p").style.display = "block";
     relics.forEach((relic) => {
-        grid.appendChild(renderRelic(relic));
+        var gridItem = renderRelic(relic);
+
+        // edit button
+        var editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.style.top = "2%";
+        editButton.style.right = "2%";
+        let editMode = false;
+        editButton.onclick = function() {
+            editMode = !editMode;
+            if (editMode) {
+                editRelic(gridItem);
+                editButton.textContent = "Save";
+            } else {
+                dispRelic(gridItem);
+                editButton.textContent = "Edit";
+            }
+        };
+        gridItem.appendChild(editButton);
+
+        grid.appendChild(gridItem);
     });
 }
 
@@ -70,24 +90,6 @@ function renderRelic(relic) {
     var bg = document.createElement("img");
     bg.src = "lib/arti_blank.png";
     gridItem.appendChild(bg);
-
-    // edit button
-    var editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.style.top = "2%";
-    editButton.style.right = "2%";
-    let editMode = false;
-    editButton.onclick = function() {
-        editMode = !editMode;
-        if (editMode) {
-            editRelic(gridItem);
-            editButton.textContent = "Save";
-        } else {
-            dispRelic(gridItem);
-            editButton.textContent = "Edit";
-        }
-    };
-    gridItem.appendChild(editButton);
 
     // set
     var setp = document.createElement("p");
