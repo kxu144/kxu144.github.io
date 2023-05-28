@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+      * {
+          box-sizing: border-box;
+      }
+      html {
+          text-size-adjust: 100%;
+      }
+      body {
+          margin: 0;
+      }
+      .popup {
+          position: fixed;
+          z-index: 1;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 190%;
+          overflow: auto;
+          background-color: rgba(0, 0, 0, 0.4);
+          display: none;
+      }
+      .popup-content {
+          position: relative;
+          background-color: #ffffff;
+          padding: 1%;
+          width: 50%;
+          height: 100%;
+      }
+      .show {
+          display: block;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f6f6f6;
+        min-width: 200px;
+        border: 1px solid #ddd;
+        z-index: 2;
+      }
+      .dropdown-content div {
+        color: black;
+        display: block;
+      }
+      .dropdown-content div:hover {
+        background-color: #c6c4c4;
+      }
+    </style>
+    <script src="lib.js"></script>
+    </head>
+    <body>
+        <button id="button-addchar">Add New Character</button>
+        <div id="popup-addchar" class="popup">
+            <div id="popup-content" class="popup-content">
+                <div id="dropdown-char" class="dropdown">
+                    <input type="text" placeholder="Select character" id="input-search">
+                    <div id="char-options" class="dropdown-content">
+                        <div>New preset</div>
+                        <div>Asta La Vista</div>
+                        <div>Dan Hung</div>
+                        <div>March 8th</div>
+                        <div>Shampoo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // popup
+            const buttonAddChar = document.getElementById("button-addchar");
+            const popupAddChar = document.getElementById("popup-addchar");
+            buttonAddChar.addEventListener("click", function () {
+                popupAddChar.classList.add("show");
+            });
+
+            // dropdown
+            const dropdown = document.getElementById("dropdown-char");
+            const charOptions = document.getElementById("char-options");
+            const inputSearch = document.getElementById("input-search");
+            charOptions.addEventListener("click", function () {
+                console.log(event.target);
+                popupAddChar.classList.remove("show");
+            });
+            inputSearch.addEventListener("click", function () {
+                charOptions.style.display = "block";
+            });
+            inputSearch.addEventListener("keyup", function () {
+                let options = charOptions.querySelectorAll("p");
+                options.forEach((option) => {
+                    if (option.textContent.toLowerCase().indexOf(inputSearch.value.toLowerCase()) > -1) {
+                        option.style.display = "";
+                    } else {
+                        option.style.display = "none";
+                    }
+                });
+            })
+
+            // window
+            window.addEventListener("click", function (event) {
+                if (event.target == popupAddChar) {
+                    popupAddChar.classList.remove("show");
+                }
+                if (!inputSearch.contains(event.target)) {
+                    charOptions.style.display = "none";
+                }
+            });
+        </script>
+    </body>
+</html>
