@@ -62,7 +62,7 @@ const recognize = async function(evt){
 
   buttonUpload.onclick = function () {
       const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-      const relic = nodeToRelic(preview);
+      const relic = nodeToRelic(document.getElementById("relic-preview"));
       relics.push(relic);
       localStorage.setItem("user-relics", JSON.stringify(relics));
       renderRelics();
