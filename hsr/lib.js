@@ -1,3 +1,5 @@
+// true if relic1 & relic2 are equal (statwise)
+// does not check lock, location
 function compareRelics(relic1, relic2) {
     if (!relic1 || !relic2) {
         return !relic1 && !relic2;
@@ -25,15 +27,18 @@ function compareRelics(relic1, relic2) {
     return true;
 }
 
+// display the relic database
 function renderRelics() {
     var grid = document.getElementById("relic-list");
     grid.innerHTML = '';
     const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-    console.log(relics.length);
     if (relics.length > 0) document.getElementById("no-relic-p").style.display = "none";
     else document.getElementById("no-relic-p").style.display = "block";
-    relics.forEach((relic) => {
+    relics.forEach((relic, idx) => {
         var gridItem = renderRelic(relic);
+
+        // assign id
+        gridItem.setAttribute("data-id", idx.toString());
 
         // edit button
         var editButton = document.createElement("button");
@@ -57,6 +62,7 @@ function renderRelics() {
     });
 }
 
+// convert string to Pascal case
 function toTitleCase(str) {
     return str.replace(
         /\w\S*/g,
@@ -65,10 +71,12 @@ function toTitleCase(str) {
         }
     );
 }
+// insert space before every capital letter
 function toNormalCase(str) {
     return str.replace(/([A-Z])/g, " $1");
 }
 
+// convert arti to displayable format (like how it looks ingame)
 function artiToDisplay(arti) {
     if (arti == 'hp' || arti == 'atk' || arti == 'def' || arti == 'spd') {
         return arti.toUpperCase();
@@ -82,6 +90,7 @@ function artiToDisplay(arti) {
     return toTitleCase(arti.replaceAll("_", " "));
 }
 
+// render a particular relic, returns a <div> tag with class grid-item
 function renderRelic(relic) {
     var gridItem = document.createElement("div");
     gridItem.className = "grid-item";
@@ -130,8 +139,8 @@ function renderRelic(relic) {
         if (stat == relic.mainStatKey) {
             statp.style.top = "54%";
             valuep.style.top = "54%";
-            gridItem.insertBefore(valuep, gridItem.childNodes[3]);
-            gridItem.insertBefore(statp, gridItem.childNodes[3]);
+            gridItem.insertBefore(valuep, levelp.nextSibling);
+            gridItem.insertBefore(statp, levelp.nextSibling);
         } else {
             statp.style.top = 62 + 8 * ofs + "%";
             valuep.style.top = 62 + 8 * ofs + "%";
@@ -144,6 +153,37 @@ function renderRelic(relic) {
     return gridItem;
 }
 
+// opposite of renderRelic
+function nodeToRelic(relic_node) {
+    var stats = relic_node.querySelectorAll("p");
+    if (stats.length < 5 || stats.length % 2 == 0) {
+        return null;
+    }
+
+    stats[3].textContent = stats[3].textContent.toLowerCase()
+    var relic = {
+        "setKey": toTitleCase(stats[0].textContent).replaceAll(" ", ""),
+        "slotKey": stats[1].textContent.toLowerCase(),
+        "level": parseInt(stats[2].textContent),
+        "rarity": 5,
+        "mainStatKey": statGOOD(stats[3].textContent) + (stats[4].textContent[stats[4].textContent.length - 1] == '%' ? '_' : ''),
+        "location": "",
+        "lock": false,
+        "substats": {},
+    };
+    for (let i = 3; i < stats.length; i+=2) {
+        let stat = statGOOD(stats[i].textContent);
+        let value = stats[i+1].textContent;
+        if (value[value.length - 1] == '%') {
+            relic.substats[stat + '_'] = parseFloat(value.slice(0, value.length - 1));
+        } else {
+            relic.substats[stat] = parseFloat(value);
+        }
+    }
+    return relic;
+}
+
+// set relic_node (DOM element) 
 function editRelic(relic_node) {
     const stats = relic_node.querySelectorAll("p");
     stats.forEach((stat) => {
@@ -181,6 +221,12 @@ function dispRelic(relic_node) {
         p.style.textAlign = inp.style.textAlign;
         relic_node.replaceChild(p, inp);
     });
+
+    // update database
+    var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
+    relics[parseInt(relic_node.getAttribute("data-id"))] = nodeToRelic(relic_node);
+    localStorage.setItem("user-relics", JSON.stringify(relics));
+    renderRelics();
 }
 
 
@@ -228,14 +274,18 @@ stats = [
     'spd',
 ];
 
+function statGOOD(str) {
+    return str.toLowerCase()
+        .replaceAll("crit rate", "critRate")
+        .replaceAll('crit dmg', 'critDMG')
+        .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
+        .replaceAll('effect hit rate', 'effect_hit_rate')
+        .replaceAll('effect res', 'effect_res')
+        .replaceAll('break effect', 'break_effect');
+}
+
 function parse(str, str_alt) {
-    var text = str.toLowerCase()
-            .replaceAll("crit rate", "critRate")
-            .replaceAll('crit dmg', 'critDMG')
-            .replaceAll('outgoing healing boost', 'outgoing_healing_boost')
-            .replaceAll('effect hit rate', 'effect_hit_rate')
-            .replaceAll('effect res', 'effect_res')
-            .replaceAll('break effect', 'break_effect');
+    var text = statGOOD(str);
     var text_alt = str_alt.toLowerCase();
     var relic = {
         "setKey": "",
@@ -298,3 +348,11 @@ function parse(str, str_alt) {
     return relic;
 }
   
+function resetPopup() {
+    document.getElementById("popup-errno").textContent = "";
+    const preview = document.getElementById("relic-preview-container");
+    if (preview) {
+      document.getElementById("popup-content").removeChild(preview);
+    }
+    document.getElementById("upload-button").disabled = true;
+}

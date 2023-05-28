@@ -149,42 +149,22 @@
       </div>
     </div>
     <script>
-      function reset() {
-        document.getElementById("popup-errno").textContent = "";
-        const preview = document.getElementById("relic-preview-container");
-        if (preview) {
-          document.getElementById("popup-content").removeChild(preview);
-        }
-        buttonUpload.disabled = true;
-      }
-
       const buttonAddRelic = document.getElementById("button-addrelic");
       const popupAddRelic = document.getElementById("popup-addrelic");
       buttonAddRelic.addEventListener("click", function () {
           popupAddRelic.classList.add("show");
       });
       const buttonClose = document.getElementById("popup-close");
-      const buttonUpload = document.getElementById("upload-button");
       buttonClose.addEventListener("click", function () {
-          reset();
+          resetPopup();
           popupAddRelic.classList.remove("show");
       });
       window.addEventListener("click", function (event) {
           if (event.target == popupAddRelic) {
-              reset();
+              resetPopup();
               popupAddRelic.classList.remove("show");
           }
       });
-      
-      buttonUpload.addEventListener("click", function () {
-          if (!sessionStorage.getItem("new-relic")) alert("No relic found.");
-          const relic = JSON.parse(sessionStorage.getItem("new-relic"));
-          var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-          relics.push(relic);
-          localStorage.setItem("user-relics", JSON.stringify(relics));
-          renderRelics();
-          reset();
-      })
     </script>
 
     <button id="button-clearrelic">Clear All Relics</button>
@@ -224,7 +204,6 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // render artifact database
-        const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
         renderRelics();
 
         const fileInput = document.getElementById("uploader");

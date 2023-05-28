@@ -58,8 +58,17 @@ const recognize = async function(evt){
       // localStorage.setItem("user-relics", JSON.stringify(relics));
       // renderList(relics, "relic-list");
   }
-  sessionStorage.setItem("new-relic", JSON.stringify(relic));
-  document.getElementById("upload-button").disabled = false;
+  const buttonUpload = document.getElementById("upload-button");
+  buttonUpload.disabled = false;
+
+  buttonUpload.onclick = function () {
+      const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
+      const relic = nodeToRelic(preview);
+      relics.push(relic);
+      localStorage.setItem("user-relics", JSON.stringify(relics));
+      renderRelics();
+      resetPopup();
+  };
   
   elm.value = '';
 }
