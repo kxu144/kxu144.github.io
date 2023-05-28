@@ -39,7 +39,6 @@ const recognize = async function(evt){
   // relic preview
   const preview = renderRelic(relic);
   editRelic(preview);
-  preview.removeChild(preview.querySelector("button"));
   preview.style.flex = "50%";
   preview.style.maxWidth = "50%";
   preview.id = "relic-preview";
