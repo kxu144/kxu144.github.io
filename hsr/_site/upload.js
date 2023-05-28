@@ -61,8 +61,12 @@ const recognize = async function(evt){
   buttonUpload.disabled = false;
 
   buttonUpload.onclick = function () {
+      // convert back to <p> tags
+      const relic_node = document.getElementById("relic-preview");
+      dispRelic(relic_node);
+
       const relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-      const relic = nodeToRelic(document.getElementById("relic-preview"));
+      const relic = nodeToRelic(relic_node);
       relics.push(relic);
       localStorage.setItem("user-relics", JSON.stringify(relics));
       renderRelics();

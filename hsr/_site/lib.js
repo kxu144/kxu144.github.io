@@ -53,6 +53,13 @@ function renderRelics() {
                 editButton.textContent = "Save";
             } else {
                 dispRelic(gridItem);
+
+                // update database
+                var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
+                relics[parseInt(gridItem.getAttribute("data-id"))] = nodeToRelic(gridItem);
+                localStorage.setItem("user-relics", JSON.stringify(relics));
+                renderRelics();
+
                 editButton.textContent = "Edit";
             }
         };
@@ -221,12 +228,6 @@ function dispRelic(relic_node) {
         p.style.textAlign = inp.style.textAlign;
         relic_node.replaceChild(p, inp);
     });
-
-    // update database
-    var relics = JSON.parse(localStorage.getItem("user-relics") || "[]");
-    relics[parseInt(relic_node.getAttribute("data-id"))] = nodeToRelic(relic_node);
-    localStorage.setItem("user-relics", JSON.stringify(relics));
-    renderRelics();
 }
 
 
