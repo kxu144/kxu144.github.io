@@ -312,3 +312,16 @@ function resetPopup() {
     }
     document.getElementById("upload-button").disabled = true;
 }
+
+
+
+
+
+
+
+
+
+// CHARACTERS.HTML
+
+
+

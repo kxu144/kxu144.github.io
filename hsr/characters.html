@@ -19,8 +19,9 @@
           z-index: 1;
           left: 0;
           top: 0;
+          padding: 10px 100px;
           width: 100%;
-          height: 190%;
+          height: 100%;
           overflow: auto;
           background-color: rgba(0, 0, 0, 0.4);
           display: none;
@@ -29,7 +30,7 @@
           position: relative;
           background-color: #ffffff;
           padding: 1%;
-          width: 50%;
+          width: 100%;
           height: 100%;
       }
       .show {
@@ -44,18 +45,24 @@
         display: none;
         position: absolute;
         background-color: #f6f6f6;
-        min-width: 200px;
+        min-width: 100%;
+        height: 300px;
+        overflow: hidden;
+        overflow-y: scroll;
         border: 1px solid #ddd;
         z-index: 2;
       }
       .dropdown-content div {
         color: black;
         display: block;
+        padding: 20px;
+        text-align: center;
       }
       .dropdown-content div:hover {
         background-color: #c6c4c4;
       }
     </style>
+    <script src="api.js"></script>
     <script src="lib.js"></script>
     </head>
     <body>
@@ -63,13 +70,13 @@
         <div id="popup-addchar" class="popup">
             <div id="popup-content" class="popup-content">
                 <div id="dropdown-char" class="dropdown">
-                    <input type="text" placeholder="Select character" id="input-search">
+                    <input type="text" placeholder="Select character" id="build-char">
                     <div id="char-options" class="dropdown-content">
-                        <div>New preset</div>
-                        <div>Asta La Vista</div>
-                        <div>Dan Hung</div>
-                        <div>March 8th</div>
-                        <div>Shampoo</div>
+                    </div>
+                </div>
+                <div id="dropdown-lvl" class="dropdown">
+                    <input type="text" value="80" id="build-lvl">
+                    <div id="lvl-options" class="dropdown-content">
                     </div>
                 </div>
             </div>
@@ -83,34 +90,70 @@
             });
 
             // dropdown
-            const dropdown = document.getElementById("dropdown-char");
+            const dropdownChar = document.getElementById("dropdown-char");
             const charOptions = document.getElementById("char-options");
-            const inputSearch = document.getElementById("input-search");
+            characters.forEach((character => {
+                var node = document.createElement("div");
+                node.innerText = character;
+                charOptions.appendChild(node);
+            }));
+            const buildChar = document.getElementById("build-char");
             charOptions.addEventListener("click", function () {
-                console.log(event.target);
-                popupAddChar.classList.remove("show");
+                const build = event.target.innerText;
+                buildChar.value = build;
             });
-            inputSearch.addEventListener("click", function () {
+            buildChar.addEventListener("click", function () {
                 charOptions.style.display = "block";
             });
-            inputSearch.addEventListener("keyup", function () {
-                let options = charOptions.querySelectorAll("p");
+            buildChar.addEventListener("keyup", function () {
+                let options = charOptions.querySelectorAll("div");
                 options.forEach((option) => {
-                    if (option.textContent.toLowerCase().indexOf(inputSearch.value.toLowerCase()) > -1) {
+                    if (option.textContent.toLowerCase().indexOf(buildChar.value.toLowerCase()) > -1) {
                         option.style.display = "";
                     } else {
                         option.style.display = "none";
                     }
                 });
-            })
+            });
+
+            const dropdownLevel = document.getElementById("dropdown-lvl");
+            const levelOptions = document.getElementById("lvl-options");
+            levels.forEach((level => {
+                var node = document.createElement("div");
+                node.innerText = level;
+                levelOptions.appendChild(node);
+            }));
+            const buildLevel = document.getElementById("build-lvl");
+            levelOptions.addEventListener("click", function () {
+                const build = event.target.innerText;
+                buildLevel.value = build;
+            });
+            buildLevel.addEventListener("click", function () {
+                levelOptions.style.display = "block";
+            });
+            buildLevel.addEventListener("keyup", function () {
+                let options = levelOptions.querySelectorAll("div");
+                options.forEach((option) => {
+                    if (option.textContent.toLowerCase().indexOf(buildLevel.value.toLowerCase()) > -1) {
+                        option.style.display = "";
+                    } else {
+                        option.style.display = "none";
+                    }
+                });
+            });
 
             // window
             window.addEventListener("click", function (event) {
                 if (event.target == popupAddChar) {
                     popupAddChar.classList.remove("show");
                 }
-                if (!inputSearch.contains(event.target)) {
+                if (!buildChar.contains(event.target)) {
+                    charOptions.scrollTop = 0;
                     charOptions.style.display = "none";
+                }
+                if (!buildLevel.contains(event.target)) {
+                    levelOptions.scrollTop = 0;
+                    levelOptions.style.display = "none";
                 }
             });
         </script>
