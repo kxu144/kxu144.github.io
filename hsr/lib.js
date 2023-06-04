@@ -133,7 +133,7 @@ function renderRelic(relic) {
     setimg.style.position = "absolute";
     setimg.style.right = "10%";
     setimg.style.top = "20%";
-    setimg.style.width = "35%";
+    setimg.style.width = "30%";
     setimg.style.zIndex = "1";
     gridItem.appendChild(setimg);
 
@@ -339,5 +339,68 @@ function resetPopup() {
 
 // CHARACTERS.HTML
 
+function genCharStats() {
+    // get character and level
+    const char = document.getElementById("build-char").value;
+    const level = document.getElementById("build-lvl").value;
 
+    var charImg = document.getElementById("char-img");
+
+    // preprocessing
+    var name = char.toLowerCase().replaceAll(' ', '');
+    if (name == "march7th") name = "mar7th";
+    else if (name == "trailblazer (fire)") name = "playergirl2";
+    else if (name == "trailblazer (physical)") name = "playergirl";
+
+    // get data
+    fetch("data/characters/" + name + ".json")
+        .then(response => response.json())
+        .then(data => {
+            // character art
+            charImg.style.position = "absolute";
+            charImg.style.right = "2%";
+            charImg.style.top = "5%";
+            charImg.style.width = "60%";
+            charImg.style.maxHeight = "100%";
+            charImg.src = "https://starrailstation.com/assets/" + data.artPath + ".webp";
+
+            // get stats
+            var promotion, extLvl;
+            if (levels.includes(level)) {
+                promotion = Math.max(Math.floor((levels.length - levels.indexOf(level)) / 2) - 1, 0);
+                if (level.includes('/')) {
+                    if (promotion == 0) {
+                        extLvl = 0;
+                    } else {
+                        extLvl = 10 * (promotion + 1) - 1;
+                    }
+                } else {
+                    extLvl = parseInt(level) - 1;
+                }
+            } else {
+                promotion = Math.max(Math.floor((parseInt(level) - 1) / 10) - 1, 0);
+                extLvl = parseInt(level) - 1;
+            }
+            const charStats = data.levelData[promotion];
+            document.getElementById("char-hp").value = Math.floor(charStats.hpBase + extLvl * charStats.hpAdd);
+            document.getElementById("char-atk").value = Math.floor(charStats.attackBase + extLvl * charStats.attackAdd);
+            document.getElementById("char-def").value = Math.floor(charStats.defenseBase + extLvl * charStats.defenseAdd);
+            document.getElementById("char-spd").value = Math.floor(charStats.speedBase + extLvl * charStats.speedAdd);
+            document.getElementById("char-crate").value = Math.floor(charStats.crate * 1000) / 10;
+            document.getElementById("char-cdmg").value = Math.floor(charStats.cdmg * 1000) / 10;
+            document.getElementById("char-agg").value = Math.floor(charStats.aggro);
+        })
+        .catch(error => {
+            charImg.src = "";
+            document.getElementById("char-hp").value = "";
+            document.getElementById("char-atk").value = "";
+            document.getElementById("char-def").value = "";
+            document.getElementById("char-spd").value = "";
+            document.getElementById("char-crate").value = "";
+            document.getElementById("char-cdmg").value = "";
+            document.getElementById("char-agg").value = "";
+            console.log("Error:", error);
+            return;
+        })
+}
 

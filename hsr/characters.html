@@ -40,13 +40,14 @@
       .dropdown {
         position: relative;
         display: inline-block;
+        z-index: 2;
       }
       .dropdown-content {
         display: none;
         position: absolute;
         background-color: #f6f6f6;
         min-width: 100%;
-        height: 300px;
+        max-height: 300px;
         overflow: hidden;
         overflow-y: scroll;
         border: 1px solid #ddd;
@@ -60,6 +61,11 @@
       }
       .dropdown-content div:hover {
         background-color: #c6c4c4;
+      }
+
+      .char-stats {
+        position: absolute;
+        top: 20%;
       }
     </style>
     <script src="api.js"></script>
@@ -79,6 +85,17 @@
                     <div id="lvl-options" class="dropdown-content">
                     </div>
                 </div>
+                <img id="char-img">
+
+                <div class="char-stats">
+                    <div>HP<input type="text" id="char-hp"></div>
+                    <div>ATK<input type="text" id="char-atk"></div>
+                    <div>DEF<input type="text" id="char-def"></div>
+                    <div>SPD<input type="text" id="char-spd"></div>
+                    <div>CRIT Rate<input type="text" id="char-crate"></div>
+                    <div>CRIT DMG<input type="text" id="char-cdmg"></div>
+                    <div>AGGRO<input type="text" id="char-agg"></div>
+                </div>
             </div>
         </div>
         <script>
@@ -89,7 +106,7 @@
                 popupAddChar.classList.add("show");
             });
 
-            // dropdown
+            // dropdown for characters
             const dropdownChar = document.getElementById("dropdown-char");
             const charOptions = document.getElementById("char-options");
             characters.forEach((character => {
@@ -99,8 +116,8 @@
             }));
             const buildChar = document.getElementById("build-char");
             charOptions.addEventListener("click", function () {
-                const build = event.target.innerText;
-                buildChar.value = build;
+                buildChar.value = event.target.innerText;
+                genCharStats();
             });
             buildChar.addEventListener("click", function () {
                 charOptions.style.display = "block";
@@ -115,7 +132,11 @@
                     }
                 });
             });
+            buildChar.addEventListener("blur", function () {
+                genCharStats();
+            });
 
+            // dropdown for levels
             const dropdownLevel = document.getElementById("dropdown-lvl");
             const levelOptions = document.getElementById("lvl-options");
             levels.forEach((level => {
@@ -125,8 +146,8 @@
             }));
             const buildLevel = document.getElementById("build-lvl");
             levelOptions.addEventListener("click", function () {
-                const build = event.target.innerText;
-                buildLevel.value = build;
+                buildLevel.value = event.target.innerText;
+                genCharStats();
             });
             buildLevel.addEventListener("click", function () {
                 levelOptions.style.display = "block";
@@ -140,6 +161,9 @@
                         option.style.display = "none";
                     }
                 });
+            });
+            buildLevel.addEventListener("blur", function () {
+                genCharStats();
             });
 
             // window
