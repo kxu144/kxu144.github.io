@@ -104,6 +104,7 @@ function renderRelic(relic) {
 
     // blank image
     var bg = document.createElement("img");
+    bg.className = "grid-item-bg";
     bg.src = "lib/arti_blank.png";
     gridItem.appendChild(bg);
 
@@ -111,7 +112,7 @@ function renderRelic(relic) {
     var setp = document.createElement("p");
     setp.style.color = "#f1a23c";
     setp.style.top = "2%";
-    setp.innerText = toNormalCase(relic.setKey);
+    setp.innerText = relic.setKey;
     gridItem.appendChild(setp);
 
     // slot
@@ -120,6 +121,21 @@ function renderRelic(relic) {
     slotp.style.top = "30%";
     slotp.innerText = toTitleCase(relic.slotKey);
     gridItem.appendChild(slotp);
+
+    // relic image
+    var setimg = document.createElement("img");
+    fetch("data/relics/" + relicsetToJSONData[relic.setKey])
+        .then(response => response.json())
+        .then(data => {
+            setimg.src = "https://starrailstation.com/assets/" + data.pieces[relicslotToID[slotp.innerText]].iconPath + ".webp";
+        })
+        .catch(error => {console.log(error);});
+    setimg.style.position = "absolute";
+    setimg.style.right = "10%";
+    setimg.style.top = "20%";
+    setimg.style.width = "35%";
+    setimg.style.zIndex = "1";
+    gridItem.appendChild(setimg);
 
     // level
     var levelp = document.createElement("p");
@@ -169,7 +185,7 @@ function nodeToRelic(relic_node) {
 
     stats[3].textContent = stats[3].textContent.toLowerCase()
     var relic = {
-        "setKey": toTitleCase(stats[0].textContent).replaceAll(" ", ""),
+        "setKey": stats[0].textContent,
         "slotKey": stats[1].textContent.toLowerCase(),
         "level": parseInt(stats[2].textContent),
         "rarity": 5,
@@ -256,8 +272,8 @@ function parse(str, str_alt) {
 
     // set
     for (const set of relic_sets) {
-        if (text.includes(set)) {
-            relic["setKey"] = toTitleCase(set).replaceAll(" ", "");
+        if (text.includes(set.toLowerCase())) {
+            relic["setKey"] = set;
             break;
         }
     }
