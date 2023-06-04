@@ -361,7 +361,7 @@ function genCharStats() {
             charImg.style.right = "2%";
             charImg.style.top = "5%";
             charImg.style.width = "60%";
-            charImg.style.maxHeight = "100%";
+            charImg.style.maxHeight = "90%";
             charImg.src = "https://starrailstation.com/assets/" + data.artPath + ".webp";
 
             // get stats
