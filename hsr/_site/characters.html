@@ -40,7 +40,9 @@
       .dropdown {
         position: relative;
         display: inline-block;
-        z-index: 2;
+      }
+      .dropdown input {
+        position: relative;
       }
       .dropdown-content {
         display: none;
@@ -51,7 +53,7 @@
         overflow: hidden;
         overflow-y: scroll;
         border: 1px solid #ddd;
-        z-index: 2;
+        z-index: 9990;
       }
       .dropdown-content div {
         color: black;
@@ -77,13 +79,20 @@
             <div id="popup-content" class="popup-content">
                 <div id="dropdown-char" class="dropdown">
                     <input type="text" placeholder="Select character" id="build-char">
-                    <div id="char-options" class="dropdown-content">
-                    </div>
+                    <div id="char-options" class="dropdown-content"></div>
                 </div>
                 <div id="dropdown-lvl" class="dropdown">
                     <input type="text" value="80" id="build-lvl">
-                    <div id="lvl-options" class="dropdown-content">
-                    </div>
+                    <div id="lvl-options" class="dropdown-content"></div>
+                </div>
+                <br>
+                <div id="dropdown-lc" class="dropdown">
+                    <input type="text" placeholder="Select lightcone" id="build-lc" disabled>
+                    <div id="lc-options" class="dropdown-content"></div>
+                </div>
+                <div id="dropdown-lc-lvl" class="dropdown">
+                    <input type="text" value="80" id="build-lc-lvl" disabled>
+                    <div id="lc-lvl-options" class="dropdown-content"></div>
                 </div>
                 <img id="char-img">
 
@@ -106,7 +115,7 @@
                 popupAddChar.classList.add("show");
             });
 
-            // dropdown for characters
+            // dropdown for character
             const dropdownChar = document.getElementById("dropdown-char");
             const charOptions = document.getElementById("char-options");
             characters.forEach((character => {
@@ -117,7 +126,9 @@
             const buildChar = document.getElementById("build-char");
             charOptions.addEventListener("click", function () {
                 buildChar.value = event.target.innerText;
-                genCharStats();
+                if (buildChar.value) {
+                    genCharStats();
+                }
             });
             buildChar.addEventListener("click", function () {
                 charOptions.style.display = "block";
@@ -133,10 +144,12 @@
                 });
             });
             buildChar.addEventListener("blur", function () {
-                genCharStats();
+                if (buildChar.value) {
+                    genCharStats();
+                }
             });
 
-            // dropdown for levels
+            // dropdown for character level
             const dropdownLevel = document.getElementById("dropdown-lvl");
             const levelOptions = document.getElementById("lvl-options");
             levels.forEach((level => {
@@ -164,6 +177,40 @@
             });
             buildLevel.addEventListener("blur", function () {
                 genCharStats();
+            });
+
+            // dropdown for lc
+            const dropdownLC = document.getElementById("dropdown-lc");
+            const lcOptions = document.getElementById("lc-options");
+            characters.forEach((character => {
+                var node = document.createElement("div");
+                node.innerText = character;
+                charOptions.appendChild(node);
+            }));
+            const buildChar = document.getElementById("build-char");
+            charOptions.addEventListener("click", function () {
+                buildChar.value = event.target.innerText;
+                if (buildChar.value) {
+                    genCharStats();
+                }
+            });
+            buildChar.addEventListener("click", function () {
+                charOptions.style.display = "block";
+            });
+            buildChar.addEventListener("keyup", function () {
+                let options = charOptions.querySelectorAll("div");
+                options.forEach((option) => {
+                    if (option.textContent.toLowerCase().indexOf(buildChar.value.toLowerCase()) > -1) {
+                        option.style.display = "";
+                    } else {
+                        option.style.display = "none";
+                    }
+                });
+            });
+            buildChar.addEventListener("blur", function () {
+                if (buildChar.value) {
+                    genCharStats();
+                }
             });
 
             // window

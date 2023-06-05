@@ -389,6 +389,10 @@ function genCharStats() {
             document.getElementById("char-crate").value = Math.floor(charStats.crate * 1000) / 10;
             document.getElementById("char-cdmg").value = Math.floor(charStats.cdmg * 1000) / 10;
             document.getElementById("char-agg").value = Math.floor(charStats.aggro);
+
+            // activate lightcone dropdowns
+            document.getElementById("build-lc").disabled = false;
+            document.getElementById("build-lc-lvl").disabled = false;
         })
         .catch(error => {
             charImg.src = "";
@@ -399,6 +403,10 @@ function genCharStats() {
             document.getElementById("char-crate").value = "";
             document.getElementById("char-cdmg").value = "";
             document.getElementById("char-agg").value = "";
+
+            document.getElementById("build-lc").disabled = true;
+            document.getElementById("build-lc-lvl").disabled = true;
+
             console.log("Error:", error);
             return;
         })
