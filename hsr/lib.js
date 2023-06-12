@@ -127,7 +127,7 @@ function renderRelic(relic) {
     fetch("data/relics/" + relicsetToJSONData[relic.setKey])
         .then(response => response.json())
         .then(data => {
-            setimg.src = "https://starrailstation.com/assets/" + data.pieces[relicslotToID[slotp.innerText]].iconPath + ".webp";
+            setimg.src = "./lib/relic/art/" + data.pieces[relicslotToID[slotp.innerText]].iconPath + ".webp";
         })
         .catch(error => {console.log(error);});
     setimg.style.position = "absolute";
