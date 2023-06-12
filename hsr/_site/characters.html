@@ -179,39 +179,7 @@
                 genCharStats();
             });
 
-            // dropdown for lc
-            const dropdownLC = document.getElementById("dropdown-lc");
-            const lcOptions = document.getElementById("lc-options");
-            characters.forEach((character => {
-                var node = document.createElement("div");
-                node.innerText = character;
-                charOptions.appendChild(node);
-            }));
-            const buildChar = document.getElementById("build-char");
-            charOptions.addEventListener("click", function () {
-                buildChar.value = event.target.innerText;
-                if (buildChar.value) {
-                    genCharStats();
-                }
-            });
-            buildChar.addEventListener("click", function () {
-                charOptions.style.display = "block";
-            });
-            buildChar.addEventListener("keyup", function () {
-                let options = charOptions.querySelectorAll("div");
-                options.forEach((option) => {
-                    if (option.textContent.toLowerCase().indexOf(buildChar.value.toLowerCase()) > -1) {
-                        option.style.display = "";
-                    } else {
-                        option.style.display = "none";
-                    }
-                });
-            });
-            buildChar.addEventListener("blur", function () {
-                if (buildChar.value) {
-                    genCharStats();
-                }
-            });
+            
 
             // window
             window.addEventListener("click", function (event) {

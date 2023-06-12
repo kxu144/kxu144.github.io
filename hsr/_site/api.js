@@ -74,6 +74,9 @@ characters = [
     'Yanqing',
     'Yukong',
 ];
+lightcones = [
+    
+];
 levels = [
     "80",
     "70/80",
