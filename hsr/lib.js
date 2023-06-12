@@ -348,9 +348,10 @@ function genCharStats() {
 
     // preprocessing
     var name = char.toLowerCase().replaceAll(' ', '');
+    console.log(name);
     if (name == "march7th") name = "mar7th";
-    else if (name == "trailblazer (fire)") name = "playergirl2";
-    else if (name == "trailblazer (physical)") name = "playergirl";
+    else if (name == "trailblazer(fire)") name = "playergirl2";
+    else if (name == "trailblazer(physical)") name = "playergirl";
 
     // get data
     fetch("data/characters/" + name + ".json")
